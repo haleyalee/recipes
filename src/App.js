@@ -1,7 +1,14 @@
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import Routes from './Routing';
+
 function App() {
   return (
     <>
-      madisonions
+      <BrowserRouter>
+        <Routes></Routes>
+      </BrowserRouter>
     </>
   );
 }
