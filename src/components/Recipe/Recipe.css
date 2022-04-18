@@ -1,0 +1,54 @@
+.recipe {
+  margin: 2rem auto;
+}
+
+.meta, 
+.ingredients,
+.instructions {
+  margin-bottom: 50px;
+}
+
+.meta h2 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.meta p, 
+.meta .tags {
+  color: #666666;
+}
+
+.meta .tag {
+  background-color: #EEEEEE;
+  color: #666666;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 1rem;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.ingredients ul {
+  margin: 0;
+  padding: 0;
+}
+
+.ingredients li{
+  margin-bottom: 0.5rem;
+  list-style: none;
+}
+
+.instructions ol {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.instructions li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+}

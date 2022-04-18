@@ -1,11 +1,15 @@
 import React from 'react'
 import Nav from '../Nav/Nav';
+import Recipe from '../Recipe/Recipe';
 
 function Home() {
   return (
-    <div>
+    <>
       <Nav />
-    </div>
+      <div className="container py-3">
+        <Recipe />
+      </div>
+    </>
   )
 }
 
