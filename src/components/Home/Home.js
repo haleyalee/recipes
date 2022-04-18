@@ -1,9 +1,10 @@
 import React from 'react'
+import Nav from '../Nav/Nav';
 
 function Home() {
   return (
     <div>
-      madisonions
+      <Nav />
     </div>
   )
 }
