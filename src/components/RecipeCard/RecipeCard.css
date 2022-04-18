@@ -1,13 +1,13 @@
 .recipe-card {
-  width: 240px;
+  width: 220px;
   margin: 0 !important;
   padding: 0;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .recipe-card img {
-  min-width: 240px;
-  min-height: 300px;
+  min-width: 220px;
+  min-height: 275px;
   background-color: #e5e5e5;
 }
 

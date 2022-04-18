@@ -23,12 +23,17 @@ function Home() {
     <>
       <Nav />
       <div className="container py-3">
-        <Grid container spacing={4} 
+        <Grid container spacing={8}
           id="recipes"
-          direction="row" justifyContent="center" alignItems="baseline"
+          display="flex"
+          justifyContent="space-evenly"
+          alignItems="flex-start"
         >
           { data.map(recipe => 
-            <Grid item key={recipe.id} >
+            <Grid item 
+              key={recipe.id} 
+              className="grid-item"
+            >
               <RecipeCard img={recipe.img} title={recipe.title} />
             </Grid>
           ) }
