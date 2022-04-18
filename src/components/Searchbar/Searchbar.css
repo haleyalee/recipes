@@ -1,0 +1,28 @@
+#searchbar {
+  width: 50%;
+  margin: auto;
+  border: none;
+  border: 1px solid #EEEEEE;
+  border-radius: 120px;
+  padding: 0.25rem 1rem;
+}
+
+#searchbar:active,
+#searchbar:focus,
+#searchbar:focus-visible,
+#searchbar:focus-within {
+  border: 1px solid orange;
+}
+
+#searchbar span {
+  padding-right: 1rem;
+}
+
+#searchbar input,
+#searchbar input:focus,
+#searchbar input:focus-visible,
+#searchbar input:active {
+  border: none;
+  outline: none;
+  outline-offset: none;
+}
