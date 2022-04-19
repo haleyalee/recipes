@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from '../Nav/Nav';
+import Tag from '../Tag/Tag';
 import './Recipe.css';
 
 function Recipe() {
@@ -11,8 +12,9 @@ function Recipe() {
           <h2>Recipe Title</h2>
           <p>Date</p>
           <div className="tags">
-            <span className="tag">tag</span>
-            <span className="tag">tag</span>
+            <Tag tag={"tag1"} />
+            <Tag tag={"tag2"} />
+            <Tag tag={"tag3"} />
           </div>
         </div>
 

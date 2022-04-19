@@ -5,6 +5,7 @@ import './Home.css';
 import Nav from '../Nav/Nav';
 import RecipeCard from '../RecipeCard/RecipeCard';
 import Searchbar from '../Searchbar/Searchbar';
+import Tag from '../Tag/Tag';
 
 const data = [
   { id: 0, img: '', title: "Recipe Title", ingredients: ['ingr1', 'ingr2', 'ingr3'], instructions: ['step1', 'step2', 'step3'], tags: ['tag', 'tag'] },
@@ -25,10 +26,16 @@ function Home() {
 
         <Searchbar />
 
+        <div id="tags" className="mt-5 mb-2">
+          <Tag tag={"Tag1"} />
+          <Tag tag={"Tag2"} />
+          <Tag tag={"Tag3"} />
+        </div>
+
         <Grid container spacing={8}
           id="recipes"
           display="flex"
-          justifyContent="space-evenly"
+          justifyContent="space-between"
           alignItems="flex-start"
         >
           { data.map(recipe => 
