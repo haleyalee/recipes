@@ -26,27 +26,24 @@ function Home() {
 
         <Searchbar />
 
-        <div id="tags" className="mt-5 mb-2">
-          <Tag tag={"Tag1"} />
-          <Tag tag={"Tag2"} />
-          <Tag tag={"Tag3"} />
+        <div id="tags" className="my-5">
+          <Tag tag={"tag1"} />
+          <Tag tag={"tag2"} />
+          <Tag tag={"tag3"} />
         </div>
 
-        <Grid container spacing={8}
-          id="recipes"
-          display="flex"
-          justifyContent="space-between"
-          alignItems="flex-start"
-        >
-          { data.map(recipe => 
-            <Grid item 
-              key={recipe.id} 
-              className="grid-item"
-            >
-              <RecipeCard img={recipe.img} title={recipe.title} />
-            </Grid>
-          ) }
-        </Grid>
+        <div id="recipes">
+          <Grid container spacing={8}
+            justifyContent="center"
+            alignItems="center"
+          >
+            { data.map(recipe => 
+              <Grid item key={recipe.id} className="grid-item">
+                <RecipeCard img={recipe.img} title={recipe.title} />
+              </Grid>
+            ) }
+          </Grid>
+        </div>
       </div>
     </>
   )
