@@ -22,7 +22,7 @@ function Home() {
   return (
     <>
       <Nav />
-      <div className="container py-3">
+      <div id="home" className="container">
 
         <Searchbar />
 

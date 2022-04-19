@@ -5,7 +5,7 @@ import './Recipe.css';
 
 function Recipe() {
   return (
-    <div>
+    <>
       <Nav />
       <div className="recipe container">
         <div className="meta">
@@ -36,7 +36,7 @@ function Recipe() {
           </ol>
         </div> 
       </div>
-    </div>
+    </>
   )
 }
 
