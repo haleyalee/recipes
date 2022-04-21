@@ -10,6 +10,7 @@ function Recipe() {
   const { data, loaded, error } = useFetchRecipeById(id);
 
   const [img, setImg] = useState('');
+  const [date, setDate] = useState('');
   const [title, setTitle] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
@@ -17,6 +18,7 @@ function Recipe() {
 
   useEffect(() => {
     setImg(data.img);
+    setDate(data.date);
     setTitle(data.title);
     setIngredients(data.ingredients);
     setInstructions(data.instructions);
@@ -30,7 +32,7 @@ function Recipe() {
       {loaded && <div className="recipe container">
         <div className="meta">
           <h2>{title}</h2>
-          <p>Date</p>
+          <p>Published: {date}</p>
           <div className="tags">
             {tags && tags.map((t, idx) => <Tag key={idx} tag={t} />)}
           </div>
