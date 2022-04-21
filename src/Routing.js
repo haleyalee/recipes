@@ -7,7 +7,7 @@ function Routing() {
   return (
     <Routes>
       <Route path="/" element={<Home />}></Route>
-      <Route path="/recipe" element={<Recipe />}></Route>
+      <Route path="/recipe/:id" element={<Recipe />}></Route>
     </Routes> 
   )
 }
