@@ -15,7 +15,7 @@ const useFetchRecipeById = (id) => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   return {
     data,
