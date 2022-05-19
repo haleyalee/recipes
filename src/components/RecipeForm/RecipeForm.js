@@ -1,18 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import './RecipeForm.css';
 
 import Nav from '../Nav/Nav';
 import List from '../List/List';
+import axios from 'axios';
 
 function RecipeForm() {
 
   const [title, setTitle] = useState('');
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [instructions, setInstructions] = useState([]);
   const [image, setImage] = useState('');
 
+  const navigate = useNavigate();
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
+  useEffect(() => {
+    if (shouldRedirect) navigate('/')
+  }, [shouldRedirect]);
+
+  const postRecipe = (recipe) => {
+    axios.post('https://wq439vspnf.execute-api.us-east-2.amazonaws.com/Prod/recipe', recipe)
+    .then(() => console.log("Successfully posted recipe"))
+    .catch(error => console.log(`Failed to post recipe: ${error}`))
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const recipe = {
+      title: title,
+      img: image,
+      ingredients: ingredients,
+      instructions: instructions,
+      tags: tags
+    }
+    postRecipe(recipe);
+    setShouldRedirect(true);
+  }
 
   return (
     <>
@@ -33,14 +60,15 @@ function RecipeForm() {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="tags" className="form-label">Tags</label>
+            <label htmlFor="tags" className="form-label">Tags </label>
+            <small className="ml-3">: please separate tags with commas</small>
             <input 
               id="tags" 
               type="text" 
               className="form-control" 
               placeholder="Tags" 
               value={tags} 
-              onChange={(e)=>setTags(e.target.value)} 
+              onChange={(e)=>setTags(e.target.value.split(','))} 
               required
             />
           </div>
@@ -64,6 +92,13 @@ function RecipeForm() {
               required
             />
           </div>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleSubmit}
+          >
+            Add Recipe
+          </button>
         </form>
       </div>
     </>
