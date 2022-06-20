@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Grid from '@material-ui/core/Grid';
 import useFetchRecipes from '../../hooks/useFetchRecipes';
+import AppContext from '../../contexts';
+import axios from 'axios';
 
 import './Home.css';
 import Nav from '../Nav/Nav';
@@ -21,7 +23,17 @@ import Tag from '../Tag/Tag';
 
 function Home() {
 
+  const { recipes, setRecipes } = useContext(AppContext);
   const { data, loaded, error } = useFetchRecipes();
+
+  useEffect(() => {
+    axios.get('https://wq439vspnf.execute-api.us-east-2.amazonaws.com/Prod/recipes')
+    .then((response) => response.data)
+    .then((r) => { console.log(r); setRecipes(r) })
+    .catch((err) => console.log(`Error: ${err}`))
+  }, []);
+
+  console.log(recipes);
 
   return (
     <>
@@ -38,7 +50,7 @@ function Home() {
           <Tag tag={"tag3"} />
         </div>
 
-        <RecipeGrid data={data} />
+        <RecipeGrid data={recipes} />
       </div>
       }
     </>
