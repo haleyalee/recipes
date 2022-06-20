@@ -45,7 +45,7 @@ function Home() {
           <Tag tag={"tag3"} />
         </div>
 
-        <RecipeGrid data={recipes} />
+        <RecipeGrid data={recipes} admin={false}/>
       </div>
       }
     </>

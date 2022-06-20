@@ -16,7 +16,7 @@ function RecipeGrid(props) {
       >
         { data.map(recipe => 
           <Grid item key={recipe.id} className="grid-item">
-            <RecipeCard img={recipe.img} title={recipe.title} id={recipe.id} />
+            <RecipeCard img={recipe.img} title={recipe.title} id={recipe.id} admin={true} />
           </Grid>
         ) }
       </Grid>

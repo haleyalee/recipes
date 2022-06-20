@@ -11,15 +11,14 @@ function RecipeCard(props) {
   return (
     <>
       { admin && 
-        <Link to={`/recipe/${id}`} className="recipe-card">
-          <a href="" className="edit-btn"><img src={edit} /></a>
+        <div className="recipe-card">
+          <a href={`/admin/edit-recipe/${id}`} className="edit-btn"><img src={edit} /></a>
           <img className="recipe-img" src={img} alt={title} width={220} height={275} />
           <h2>{title}</h2>
-        </Link>
+        </div>
       }
       { !admin && 
         <Link to={`/recipe/${id}`} className="recipe-card">
-          <a href="" className="edit-btn"><img src={edit} /></a>
           <img className="recipe-img" src={img} alt={title} width={220} height={275} />
           <h2>{title}</h2>
         </Link>
