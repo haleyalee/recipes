@@ -4,7 +4,7 @@ import useFetchRecipes from '../../hooks/useFetchRecipes';
 
 import './Home.css';
 import Nav from '../Nav/Nav';
-import RecipeCard from '../RecipeCard/RecipeCard';
+import RecipeGrid from '../RecipeGrid/RecipeGrid';
 import Searchbar from '../Searchbar/Searchbar';
 import Tag from '../Tag/Tag';
 
@@ -38,18 +38,7 @@ function Home() {
           <Tag tag={"tag3"} />
         </div>
 
-        <div id="recipes">
-          <Grid container spacing={8}
-            justifyContent="center"
-            alignItems="center"
-          >
-            { data.map(recipe => 
-              <Grid item key={recipe.id} className="grid-item">
-                <RecipeCard img={recipe.img} title={recipe.title} id={recipe.id} />
-              </Grid>
-            ) }
-          </Grid>
-        </div>
+        <RecipeGrid data={data} />
       </div>
       }
     </>

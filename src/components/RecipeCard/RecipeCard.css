@@ -1,17 +1,18 @@
 .recipe-card {
+  position: relative;
   width: 220px;
   margin: 0 !important;
   padding: 0;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;
   text-decoration: none;
   color: #000000;
 }
 
-.recipe-card:hover {
+/* .recipe-card:hover {
   transform: scale(1.01);
-}
+} */
 
-.recipe-card img {
+.recipe-card .recipe-img {
   min-width: 220px;
   min-height: 275px;
   background-color: #e5e5e5;
@@ -21,4 +22,21 @@
   font-size: 20px;
   padding: 1rem;
   margin-bottom: 0;
+}
+
+.edit-btn {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: white;
+  border-radius: 100px;
+  margin: 0.5rem;
+  right: 0;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+.edit-btn img {
+  width: 35px;
+  height: 35px;
+  padding: 0.4rem;
 }

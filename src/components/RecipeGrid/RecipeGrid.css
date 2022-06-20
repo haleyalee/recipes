@@ -1,0 +1,13 @@
+#recipes {
+  padding: 0;
+  width: 100%;
+  margin: auto;
+  /* margin: 1rem -32px; */
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-item {
+  display: flex;
+  justify-content: center;
+}
