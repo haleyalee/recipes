@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import useFetchRecipeById from '../../hooks/useFetchRecipeById';
+// import useFetchRecipeById from '../../hooks/useFetchRecipeById';
+import AppContext from '../../contexts';
 import Nav from '../Nav/Nav';
 import Tag from '../Tag/Tag';
 import './Recipe.css';
 
 function Recipe() {
   const { id } = useParams();
-  const { data, loaded, error } = useFetchRecipeById(id);
+  // const { data, loaded, error } = useFetchRecipeById(id);
+  const { recipes } = useContext(AppContext);
+  const [recipe, setRecipe] = useState({});
 
   const [img, setImg] = useState('');
   const [date, setDate] = useState('');
@@ -17,19 +20,22 @@ function Recipe() {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    setImg(data.img);
-    setDate(data.date);
-    setTitle(data.title);
-    setIngredients(data.ingredients);
-    setInstructions(data.instructions);
-    setTags(data.tags);
-  }, [data])
+    setRecipe(recipes.find(r=>r.id==id))
+  }, [id, recipes, setRecipe])
+
+  useEffect(() => {
+    setImg(recipe.img);
+    setDate(recipe.date);
+    setTitle(recipe.title);
+    setIngredients(recipe.ingredients);
+    setInstructions(recipe.instructions);
+    setTags(recipe.tags);
+  }, [recipe])
   
   return (
     <>
       <Nav />
-      {(!loaded || error !== '') && <div>Loading...</div>}
-      {loaded && <div className="recipe container">
+      <div className="recipe container">
         <div className="meta">
           <h2>{title}</h2>
           <p>Published: {date}</p>
@@ -52,7 +58,6 @@ function Recipe() {
           </ol>
         </div> 
       </div>
-      }
     </>
   )
 }

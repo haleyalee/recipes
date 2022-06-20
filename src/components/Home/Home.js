@@ -27,13 +27,8 @@ function Home() {
   const { data, loaded, error } = useFetchRecipes();
 
   useEffect(() => {
-    axios.get('https://wq439vspnf.execute-api.us-east-2.amazonaws.com/Prod/recipes')
-    .then((response) => response.data)
-    .then((r) => { console.log(r); setRecipes(r) })
-    .catch((err) => console.log(`Error: ${err}`))
-  }, []);
-
-  console.log(recipes);
+    setRecipes(data);
+  }, [data]);
 
   return (
     <>
