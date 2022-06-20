@@ -7,13 +7,13 @@ import Nav from '../Nav/Nav';
 import List from '../List/List';
 import axios from 'axios';
 
-function RecipeForm() {
+function RecipeForm(props) {
 
-  const [title, setTitle] = useState('');
-  const [tags, setTags] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [instructions, setInstructions] = useState([]);
-  const [image, setImage] = useState('');
+  const [title, setTitle] = useState(props.title ? props.title : '');
+  const [tags, setTags] = useState(props.tags ? props.tags : []);
+  const [ingredients, setIngredients] = useState(props.ingredients ? props.ingredients : []);
+  const [instructions, setInstructions] = useState(props.instructions ? props.instructions : []);
+  const [image, setImage] = useState(props.image ? props.image : '');
 
   const navigate = useNavigate();
   const [shouldRedirect, setShouldRedirect] = useState(false);

@@ -4,6 +4,7 @@ import Home from './components/Home/Home';
 import Recipe from './components/Recipe/Recipe';
 import Admin from './components/Admin/Admin';
 import RecipeForm from './components/RecipeForm/RecipeForm';
+import EditRecipe from './components/EditRecipe/EditRecipe';
 
 function Routing() {
   return (
@@ -11,6 +12,7 @@ function Routing() {
       <Route path="/" element={<Home />}></Route>
       <Route path="/recipe/:id" element={<Recipe />}></Route>
       <Route path="/admin" element={<Admin />}></Route>
+      <Route path="/admin/edit-recipe/:id" element={<EditRecipe />}></Route>
     </Routes> 
   )
 }
