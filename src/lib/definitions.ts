@@ -8,7 +8,7 @@ interface RecipeData {
   [key: string]: {
     name: string,
     ingredients: string[],
-    instructions: string
+    instructions: string[]
   }
 }
 
