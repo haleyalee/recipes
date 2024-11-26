@@ -5,6 +5,14 @@ export default {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx}"
   ],
-  theme: {},
+  theme: {
+    extend: {
+      colors: {
+        "green": "#B3B07E",
+        "linkGreen": "#8C884B",
+        "hoverGreen": "#5E5A23"
+      }
+    }
+  },
   plugins: [],
 } satisfies Config;
