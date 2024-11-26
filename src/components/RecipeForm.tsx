@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { RecipeForm as RecipeFormProps } from "../lib/definitions";
 import { useRouter } from 'next/navigation';
-import Link from "next/link";
+import BackButton from "./BackButton";
 
 const delimiter = "\n";
 
@@ -24,7 +24,8 @@ export default function RecipeForm({
 
   const formText = {
     title: type === "edit" ? "Edit Recipe" : "Add a New Recipe",
-    submitBtn: type === "edit" ? "Edit Recipe" : "Add Recipe"
+    submitBtn: type === "edit" ? "Edit Recipe" : "Add Recipe",
+    backBtn: type === "edit" ? "Back to Recipe" : "Back to All Recipes"
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -62,8 +63,7 @@ export default function RecipeForm({
   
   return (
     <div>
-      {/* TODO: Add popup asking if you're sure you want to continue without saving */}
-      <Link href="/recipes" className="hover:underline text-blue-500">&lt; Back to All Recipes</Link>
+      <BackButton content={formText.backBtn} confirm />
       <h1 className="text-2xl font-bold my-4">{ formText.title }</h1>
       <form onSubmit={handleSubmit}>
         {/* Recipe name */}

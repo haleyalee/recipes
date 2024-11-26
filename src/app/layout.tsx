@@ -24,7 +24,7 @@ export default function RootLayout({
         <header className="bg-green text-white p-4">
           <div className="container mx-auto flex flex-row items-center justify-between">
             <h1 className="text-xl font-bold align-middle hover:scale-105"><a href="/">madisonions</a></h1>
-            <div className="flex flex-row items-center gap-4">
+            <div className="flex flex-col items-end gap-2 md:flex-row md:items-center md:gap-4">
               <nav>
                 <ul className="flex gap-4">
                   <li><a href="/recipes" className="hover:underline align-middle">recipes</a></li>
@@ -34,7 +34,7 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-        <main className="container mx-auto p-4">{children}</main>
+        <main className="container mx-auto p-4 md:px-0">{children}</main>
       </body>
     </html>
   );

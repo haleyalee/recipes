@@ -5,9 +5,14 @@ import Link from "next/link";
 export default function RecipeListPage() {
   return (
     <div>
-      <div className="flex flex-row justify-between">
-        <h1 className="text-2xl font-bold mb-4">All Recipes</h1>
-        <Link href="add-recipe" className="hover:underline text-blue-500">+ Recipe</Link>
+      <div className="flex flex-row justify-between mb-4">
+        <h1 className="text-2xl font-bold">All Recipes</h1>
+        <Link 
+          href={`add-recipe`} 
+          className="flex rounded-full px-3 text-white items-center bg-linkGreen hover:bg-hoverGreen hover:shadow-sm"
+        >
+          + Recipe
+        </Link>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {recipes.map((recipe) => (

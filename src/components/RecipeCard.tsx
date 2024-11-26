@@ -13,7 +13,7 @@ export default function RecipeCard({ recipe }: { recipe: Recipe }) {
       </div>
       <Link 
         href={`/recipes/${path}`} 
-        className="hover:underline text-blue-500"
+        className="hover:underline text-linkGreen"
       >
         View Recipe
       </Link>

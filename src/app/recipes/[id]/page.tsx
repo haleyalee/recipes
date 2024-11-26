@@ -1,3 +1,4 @@
+import BackButton from "@/src/components/BackButton";
 import { recipeData } from "@/src/lib/placeholder-data";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,15 +7,19 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
   const id = (await params).id;
   const recipe = recipeData[id];
 
-  if (!recipe) {
-    notFound();
-  }
+  if (!recipe) notFound();
 
   return (
     <div>
-      <div className="flex flex-row justify-between">
-        <h1 className="text-3xl font-bold mb-4">{recipe.name}</h1>
-        <Link href={`${id}/edit`} className="hover:underline text-blue-500">Edit Recipe</Link>
+      <BackButton content="Back to All Recipes" />
+      <div className="flex flex-row justify-between mb-4">
+        <h1 className="text-3xl font-bold">{recipe.name}</h1>
+        <Link 
+          href={`${id}/edit`} 
+          className="flex rounded-full px-3 text-white items-center bg-linkGreen hover:bg-hoverGreen hover:shadow-sm"
+        >
+          Edit Recipe
+        </Link>
       </div>
       <div>
         <h2 className="text-xl font-semibold">Ingredients:</h2>

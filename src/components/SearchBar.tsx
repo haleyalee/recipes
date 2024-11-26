@@ -56,7 +56,6 @@ export default function SearchBar() {
     } else if (e.key === "Escape") {
       setHighlightIndex(-1);
       setSuggestions([]);
-      // setSearchQuery("");
     }
   };
 
