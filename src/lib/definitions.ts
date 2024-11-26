@@ -10,6 +10,7 @@ type RecipeDetails = {
   name: string;
   ingredients: string[];
   instructions: string[];
+  notes?: string;
 }
 
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { RecipeForm as RecipeFormProps } from "../lib/definitions";
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 const delimiter = "\n";
 
@@ -17,7 +18,8 @@ export default function RecipeForm({
     name: data.name,
     // If editing an existing recipe, convert string[] to string separated by commas
     ingredients: data.ingredients.join(delimiter),
-    instructions: data.instructions.join(delimiter)
+    instructions: data.instructions.join(delimiter),
+    notes: data.notes
   });
 
   const formText = {
@@ -42,6 +44,7 @@ export default function RecipeForm({
       name: formData.name,
       ingredients: formData.ingredients.split(delimiter).map((item) => item.trim()),
       instructions: formData.instructions.split(delimiter).map((item) => item.trim()),
+      notes: formData.notes
     };
 
     console.log("Recipe Submitted:", processedData);
@@ -59,7 +62,9 @@ export default function RecipeForm({
   
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">{ formText.title }</h1>
+      {/* TODO: Add popup asking if you're sure you want to continue without saving */}
+      <Link href="/recipes" className="hover:underline text-blue-500">&lt; Back to All Recipes</Link>
+      <h1 className="text-2xl font-bold my-4">{ formText.title }</h1>
       <form onSubmit={handleSubmit}>
         {/* Recipe name */}
         <div className="mb-4">
@@ -111,7 +116,7 @@ export default function RecipeForm({
           <textarea 
             id="ingredients"
             name="ingredients"
-            placeholder="Ingredients, separated by a new line"
+            placeholder="Ingredients (separated by a new line)"
             rows={4}
             value={formData.ingredients}
             onChange={handleChange}
@@ -131,7 +136,7 @@ export default function RecipeForm({
           <textarea
             id="instructions"
             name="instructions"
-            placeholder="Instructions, separated by a new line"
+            placeholder="Instructions (separated by a new line)"
             rows={6}
             value={formData.instructions}
             onChange={handleChange}
@@ -141,7 +146,7 @@ export default function RecipeForm({
         </div>
 
         {/* Notes */}
-        {/* <div className="mb-4">
+        <div className="mb-4">
           <label
             htmlFor="notes"
             className="block text-sm font-medium text-gray-700"
@@ -151,12 +156,12 @@ export default function RecipeForm({
           <textarea
             id="notes"
             name="notes"
-            placeholder="any additional comments"
+            placeholder="Any additional comments"
             value={formData.notes}
             onChange={handleChange}
             className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
           />
-        </div> */}
+        </div>
 
         {/* Submit button */}
         <div>
