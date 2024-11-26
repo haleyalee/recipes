@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { RecipeForm as RecipeFormProps } from "../lib/definitions";
-import { redirect } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 const delimiter = "\n";
 
@@ -10,6 +10,8 @@ export default function RecipeForm({
   data = { name: "", ingredients: [""], instructions: [""] },
   type
 }: RecipeFormProps) {
+
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     name: data.name,
@@ -47,7 +49,11 @@ export default function RecipeForm({
     // TODO: Add logic to save the recipe
 
     // Redirect
-    redirect("/recipes");
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/recipes');
+    }
   };
 
   

@@ -1,4 +1,5 @@
 import { recipeData } from "@/src/lib/placeholder-data";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function RecipeDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -11,7 +12,10 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-4">{recipe.name}</h1>
+      <div className="flex flex-row justify-between">
+        <h1 className="text-3xl font-bold mb-4">{recipe.name}</h1>
+        <Link href={`${id}/edit`} className="hover:underline text-blue-500">Edit Recipe</Link>
+      </div>
       <h2 className="text-xl font-semibold">Ingredients:</h2>
       <ul className="list-disc pl-6">
         {recipe.ingredients.map((ingredient, i) => (
