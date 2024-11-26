@@ -167,7 +167,7 @@ export default function RecipeForm({
         <div>
           <button
             type="submit"
-            className="px-6 py-2 bg-blue-500 text-white font-medium rounded-md shadow-sm hover:bg-blue-600"
+            className="px-4 py-2 bg-linkGreen text-white font-medium rounded-full shadow-sm hover:bg-hoverGreen"
           >
             { formText.submitBtn }
           </button>

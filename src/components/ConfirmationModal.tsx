@@ -54,7 +54,7 @@ export default function ConfirmationModal({ isOpen, onClose }: { isOpen: boolean
           <div className="flex gap-4">
             <button 
               id="go-back__btn"
-              className="bg-green text-white p-4 rounded-full hover:bg-hoverGreen hover:shadow-sm"
+              className="bg-linkGreen text-white px-4 py-2 rounded-full hover:bg-hoverGreen shadow-sm"
               onClick={handleGoBack}
             >
               Yes, take me back

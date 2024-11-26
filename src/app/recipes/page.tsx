@@ -9,7 +9,7 @@ export default function RecipeListPage() {
         <h1 className="text-2xl font-bold">All Recipes</h1>
         <Link 
           href={`add-recipe`} 
-          className="flex rounded-full px-3 text-white items-center bg-linkGreen hover:bg-hoverGreen hover:shadow-sm"
+          className="flex rounded-full px-4 py-2 text-white items-center bg-linkGreen hover:bg-hoverGreen shadow-sm"
         >
           + Recipe
         </Link>

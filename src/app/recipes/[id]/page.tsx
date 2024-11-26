@@ -16,7 +16,7 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
         <h1 className="text-3xl font-bold">{recipe.name}</h1>
         <Link 
           href={`${id}/edit`} 
-          className="flex rounded-full px-3 text-white items-center bg-linkGreen hover:bg-hoverGreen hover:shadow-sm"
+          className="flex rounded-full px-4 py-2 text-white items-center bg-linkGreen hover:bg-hoverGreen shadow-sm"
         >
           Edit Recipe
         </Link>
