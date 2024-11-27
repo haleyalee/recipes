@@ -3,7 +3,7 @@ type FormType = "add" | "edit";
 interface Recipe {
   id: number,
   name: string,
-  category: string
+  category: string[]
 }
 
 type RecipeDetails = {
@@ -13,14 +13,18 @@ type RecipeDetails = {
   notes?: string;
 }
 
-
 interface RecipeData {
   [key: string]: RecipeDetails
 }
 
-interface RecipeForm {
-  data?: RecipeDetails;
-  type: FormType;
+interface TagData {
+  [category: string]: RecipeDetails[]
 }
 
-export type { Recipe, RecipeDetails, RecipeData, RecipeForm };
+export type { 
+  Recipe, 
+  RecipeDetails, 
+  RecipeData, 
+  FormType, 
+  TagData 
+};

@@ -1,9 +1,14 @@
 import BackButton from "@/src/components/BackButton";
+import PageHeader from "@/src/components/PageHeader";
+import RedirectButton from "@/src/components/RedirectButton";
 import { recipeData } from "@/src/lib/placeholder-data";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export default async function RecipeDetailPage({ params }: { params: Promise<{ id: string }> }) {
+interface RecipeDetailPageProps {
+  params: Promise<{ id:string }>
+}
+
+export default async function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
   const id = (await params).id;
   const recipe = recipeData[id];
 
@@ -11,15 +16,10 @@ export default async function RecipeDetailPage({ params }: { params: Promise<{ i
 
   return (
     <div>
-      <BackButton content="Back to All Recipes" />
+      <BackButton>Back to All Recipes</BackButton>
       <div className="flex flex-row justify-between mb-4">
-        <h1 className="text-3xl font-bold">{recipe.name}</h1>
-        <Link 
-          href={`${id}/edit`} 
-          className="flex rounded-full px-4 py-2 text-white items-center bg-linkGreen hover:bg-hoverGreen shadow-sm"
-        >
-          Edit Recipe
-        </Link>
+        <PageHeader>{recipe.name}</PageHeader>
+        <RedirectButton path={`${id}/edit`}>Edit Recipe</RedirectButton>
       </div>
       <div>
         <h2 className="text-xl font-semibold">Ingredients:</h2>

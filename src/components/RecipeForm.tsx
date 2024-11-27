@@ -1,11 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { RecipeForm as RecipeFormProps } from "../lib/definitions";
+import { FormType, RecipeDetails } from "../lib/definitions";
 import { useRouter } from 'next/navigation';
 import BackButton from "./BackButton";
+import PageHeader from "./PageHeader";
 
 const delimiter = "\n";
+
+interface RecipeFormProps {
+  data?: RecipeDetails;
+  type: FormType;
+}
 
 export default function RecipeForm({
   data = { name: "", ingredients: [""], instructions: [""] },
@@ -63,9 +69,9 @@ export default function RecipeForm({
   
   return (
     <div>
-      <BackButton content={formText.backBtn} confirm />
-      <h1 className="text-2xl font-bold my-4">{ formText.title }</h1>
-      <form onSubmit={handleSubmit}>
+      <BackButton confirm={type === "edit"}>{ formText.backBtn }</BackButton>
+      <PageHeader>{formText.title}</PageHeader>
+      <form className="mt-4" onSubmit={handleSubmit}>
         {/* Recipe name */}
         <div className="mb-4">
           <label
@@ -167,7 +173,7 @@ export default function RecipeForm({
         <div>
           <button
             type="submit"
-            className="px-4 py-2 bg-linkGreen text-white font-medium rounded-full shadow-sm hover:bg-hoverGreen"
+            className="px-3 py-1 bg-linkGreen text-white font-medium rounded-full shadow-sm hover:bg-hoverGreen"
           >
             { formText.submitBtn }
           </button>

@@ -29,11 +29,7 @@ export default function HomePage() {
   const [showOnion, setShowOnion] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowOnion(true);
-    }, 100);
-
-    return () => clearTimeout(timer);
+    setShowOnion(true);
   }, []);
 
   return (

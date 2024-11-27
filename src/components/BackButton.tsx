@@ -3,7 +3,12 @@
 import { useState } from "react";
 import ConfirmationModal from "./ConfirmationModal";
 
-export default function BackButton({ content = "Back", confirm }: { content?: string, confirm?: boolean }) {
+interface BackButtonProps {
+  confirm?: boolean,
+  children: React.ReactNode
+}
+
+export default function BackButton({ confirm, children }: BackButtonProps) {
   const [showModal, setShowModal] = useState(false);
 
   const handleClick = (e: { preventDefault: () => void; }) => {
@@ -24,7 +29,7 @@ export default function BackButton({ content = "Back", confirm }: { content?: st
         className="block hover:underline text-linkGreen mb-4"
         onClick={handleClick}
         >
-        {`< ${content}`}
+        {`< ${ children }`}
       </a>
       <ConfirmationModal isOpen={showModal} onClose={closeModal} />
     </>

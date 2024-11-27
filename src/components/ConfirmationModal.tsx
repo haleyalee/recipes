@@ -3,7 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-export default function ConfirmationModal({ isOpen, onClose }: { isOpen: boolean, onClose: ()=> void }) {
+interface ConfirmationModalProps {
+  isOpen: boolean,
+  onClose: ()=>void
+}
+
+export default function ConfirmationModal({ isOpen, onClose }: ConfirmationModalProps) {
   const [animate, setAnimate] = useState(false);
   const modalRef = useRef<HTMLDivElement|null>(null);
   const router = useRouter();
