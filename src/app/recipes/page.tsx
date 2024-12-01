@@ -1,10 +1,10 @@
 "use client";
 
-import { categories, recipes } from "@/src/lib/placeholder-data";
-import RecipeCard from "../../components/RecipeCard";
-import CategoryPill from "@/src/components/CategoryPill";
 import { useEffect, useState } from "react";
 import { Recipe } from "@/src/lib/definitions";
+import { categories, recipes } from "@/src/lib/placeholder-data";
+import RecipeCard from "@/src/components/RecipeCard";
+import CategoryPill from "@/src/components/CategoryPill";
 import RedirectButton from "@/src/components/RedirectButton";
 import PageHeader from "@/src/components/PageHeader";
 
@@ -43,7 +43,12 @@ export default function RecipeListPage() {
       {/* Category Filters */}
       <div className="flex flex-wrap gap-2 mb-4">
         { categories.map((c, idx) => 
-          <CategoryPill key={idx} category={c} toggleCategory={toggleCategory} />
+          <CategoryPill 
+            key={idx} 
+            category={c} 
+            isSelected={selectedCategories.includes(c)}
+            toggleCategory={toggleCategory} 
+          />
         )}
       </div>
       {/* Recipe Cards */}

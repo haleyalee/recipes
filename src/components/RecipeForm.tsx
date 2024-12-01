@@ -5,6 +5,8 @@ import { FormType, RecipeDetails } from "../lib/definitions";
 import { useRouter } from 'next/navigation';
 import BackButton from "./BackButton";
 import PageHeader from "./PageHeader";
+import { categories } from "../lib/placeholder-data";
+import { capitalizeFirstLetter, getCategoryForRecipe, getPathFromName } from "../utils/helper";
 
 const delimiter = "\n";
 
@@ -14,19 +16,23 @@ interface RecipeFormProps {
 }
 
 export default function RecipeForm({
-  data = { name: "", ingredients: [""], instructions: [""] },
+  data = { name: "", ingredients: [""], instructions: [""], notes: "" },
   type
 }: RecipeFormProps) {
 
   const router = useRouter();
+  const path = getPathFromName(data.name);
 
   const [formData, setFormData] = useState({
     name: data.name,
+    categories: getCategoryForRecipe(path),
     // If editing an existing recipe, convert string[] to string separated by commas
     ingredients: data.ingredients.join(delimiter),
     instructions: data.instructions.join(delimiter),
     notes: data.notes
   });
+  const [categoryInput, setCategoryInput] = useState("");
+  const [filteredCategories, setFilteredCategories] = useState(categories);
 
   const formText = {
     title: type === "edit" ? "Edit Recipe" : "Add a New Recipe",
@@ -43,6 +49,48 @@ export default function RecipeForm({
     }));
   };
 
+  const handleCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCategoryInput(value);
+
+    // Filter existing categories and include the "Add new category" option
+    const filtered = categories.filter(
+      (category) =>
+        category.includes(value.toLowerCase()) && !formData.categories.includes(category)
+    );
+
+    setFilteredCategories(value.trim() ? [...filtered, `Add new category: ${value}`] : filtered);
+  };
+
+  const handleCategoryAdd = (category: string) => {
+    if (!formData.categories.includes(category)) {
+      // Process category
+      const processedCat = category.toLowerCase();
+      setFormData((prevData) => ({
+        ...prevData,
+        categories: [...prevData.categories, processedCat],
+      }));
+      setCategoryInput("");
+      setFilteredCategories(categories);
+    }
+  };
+
+  const handleDropdownClick = (option: string) => {
+    if (option.startsWith("Add new category: ")) {
+      const newCategory = option.replace("Add new category: ", "").trim();
+      handleCategoryAdd(newCategory);
+    } else {
+      handleCategoryAdd(option);
+    }
+  };
+
+  const handleRemoveCategory = (category: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      categories: prevData.categories.filter((cat) => cat !== category),
+    }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -54,6 +102,10 @@ export default function RecipeForm({
       notes: formData.notes
     };
 
+    // Process new categories
+    // Update running list of all categories
+
+    console.log("Categories Updated", formData.categories);
     console.log("Recipe Submitted:", processedData);
 
     // TODO: Add logic to save the recipe
@@ -93,23 +145,51 @@ export default function RecipeForm({
         </div>
 
         {/* Tags */}
-        {/* <div className="mb-4">
-          <label
-            htmlFor="tags"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Category Tags
+        <div className="mb-4">
+          <label htmlFor="categories" className="block text-sm font-medium text-gray-700">
+            Categories
           </label>
-          <textarea 
-            id="tags"
-            name="tags"
-            placeholder="category tags, separated by a comma"
-            value={formData.tags}
-            onChange={handleChange}
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-            required
-          />
-        </div> */}
+          <div className="relative">
+            <input
+              id="categories"
+              type="text"
+              placeholder="Add categories"
+              value={categoryInput}
+              onChange={handleCategoryInputChange}
+              className="p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            />
+            {categoryInput && filteredCategories.length > 0 && (
+              <ul className="absolute z-10 bg-white border border-gray-300 mt-1 rounded-md shadow-md w-full max-h-40 overflow-y-auto">
+                {filteredCategories.map((category, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleDropdownClick(category)}
+                    className="cursor-pointer p-2 hover:bg-gray-100"
+                  >
+                    {category}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="mt-2">
+            {formData.categories.map((category, index) => (
+              <span
+                key={index}
+                className="inline-flex items-center px-2 py-1 text-sm font-medium bg-gray-200 rounded-full mr-2"
+              >
+                {capitalizeFirstLetter(category)}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveCategory(category)}
+                  className="ml-1 text-red-500 hover:text-red-700"
+                >
+                  ✕
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
 
         {/* Ingredients */}
         <div className="mb-4">

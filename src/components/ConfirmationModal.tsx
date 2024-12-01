@@ -55,11 +55,11 @@ export default function ConfirmationModal({ isOpen, onClose }: ConfirmationModal
           ref={modalRef}
           className={`absolute flex flex-col bg-gray-100 w-2/4 h-fit p-8 rounded-md items-center justify-center shadow-lg transition-transform duration-500 transform ${animate ? 'scale-100' : 'scale-95'}`}
         >
-          <h2 className="text-lg mb-4">Your changes will not be saved. Are you sure you want to continue?</h2>
+          <h2 className="text-md mb-4">Your changes will not be saved. Are you sure you want to continue?</h2>
           <div className="flex gap-4">
             <button 
               id="go-back__btn"
-              className="bg-linkGreen text-white px-4 py-2 rounded-full hover:bg-hoverGreen shadow-sm"
+              className="bg-linkGreen text-white px-3 py-1 rounded-full hover:bg-hoverGreen shadow-sm"
               onClick={handleGoBack}
             >
               Yes, take me back

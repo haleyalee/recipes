@@ -1,8 +1,8 @@
 import { Recipe, RecipeData } from "./definitions";
 
 const recipes: Recipe[] = [
-  { id: 1, name: "Spaghetti Carbonara", category: ["Dinner", "Italian"] },
-  { id: 2, name: "Chocolate Cake", category: ["Dessert"] },
+  { id: 1, name: "Spaghetti Carbonara", category: ["dinner", "italian"] },
+  { id: 2, name: "Chocolate Cake", category: ["dessert"] },
 ];
 
 const recipeData: RecipeData = {
@@ -10,6 +10,6 @@ const recipeData: RecipeData = {
   "chocolate-cake": { name: "Chocolate Cake", ingredients: ["Flour", "Cocoa", "Sugar"], instructions: ["Mix", "Bake", "Enjoy!"] },
 };
 
-const categories = ["Italian", "Dinner", "Dessert"];
+const categories = ["italian", "dinner", "dessert"];
 
 export { recipes, recipeData, categories };
