@@ -33,7 +33,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="relative h-[130vh] overflow-hidden">
+    <div className="relative h-[130vh] overflow-hidden cursor-custom">
       {/* Landing Page */}
       <div className={`flex flex-col items-center justify-center h-screen transition-transform duration-500 ease-in-out ${
           scrollPosition > 0 ? `-translate-y-[${scrollPosition}px]` : ""

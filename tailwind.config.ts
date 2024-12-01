@@ -11,6 +11,9 @@ export default {
         "green": "#B3B07E",
         "linkGreen": "#8C884B",
         "hoverGreen": "#5E5A23"
+      },
+      cursor: {
+        "custom": "url(/oven-mitt.png), auto"
       }
     }
   },
