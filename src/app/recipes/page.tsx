@@ -1,32 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Recipe } from "@/src/lib/definitions";
-import { categories, recipes } from "@/src/lib/placeholder-data";
-import RecipeCard from "@/src/components/RecipeCard";
-import CategoryPill from "@/src/components/CategoryPill";
-import RedirectButton from "@/src/components/RedirectButton";
-import PageHeader from "@/src/components/PageHeader";
+import { useState } from "react";
+import { categories } from "@/lib/db";
+import RecipeCard from "@/components/RecipeCard";
+import CategoryPill from "@/components/CategoryPill";
+import RedirectButton from "@/components/RedirectButton";
+import PageHeader from "@/components/PageHeader";
+import { getRecipeDetailsByName } from "@/utils/helper";
+import { useRecipes } from "@/hooks/useRecipes";
 
 export default function RecipeListPage() {
-
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [filteredRecipes, setFilteredRecipes] = useState<Recipe[]>([]);
+  const { recipes, error } = useRecipes();
 
-  // Filter recipes by category
-  useEffect(() => {
-    console.log("New selected categories: ", selectedCategories);
-    const filter = selectedCategories.length > 0
-      ? recipes.filter((recipe) =>
-        recipe.category.some((cat) => selectedCategories.includes(cat))
-        )
-      : recipes;
-    setFilteredRecipes(filter);
-  }, [selectedCategories]);
+  // Filter recipes dynamically by category
+  const filteredRecipes = selectedCategories.length > 0
+    ? recipes.filter((recipe) => {
+        const recipeDetails = getRecipeDetailsByName(recipe.name);
+        return recipeDetails?.category.some((cat) => selectedCategories.includes(cat));
+      })
+    : recipes;
 
   const toggleCategory = (category: string) => {
-    console.log("Toggle category ", category);
-
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category) // Remove category if already selected
@@ -36,10 +31,13 @@ export default function RecipeListPage() {
 
   return (
     <div>
+      {error && <div className="error-message">{error}</div>}
+
       <div className="flex flex-row justify-between mb-4">
         <PageHeader>All Recipes</PageHeader>
         <RedirectButton path="add-recipe">+ Recipe</RedirectButton>
       </div>
+
       {/* Category Filters */}
       <div className="flex flex-wrap gap-2 mb-4">
         { categories.map((c, idx) => 
@@ -51,6 +49,7 @@ export default function RecipeListPage() {
           />
         )}
       </div>
+
       {/* Recipe Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
         {filteredRecipes.map((recipe) => (
