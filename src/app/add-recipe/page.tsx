@@ -1,4 +1,4 @@
-import RecipeForm from "@/src/components/RecipeForm";
+import RecipeForm from "@/components/RecipeForm";
 
 export default function AddRecipeForm() {
   
