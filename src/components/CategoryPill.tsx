@@ -1,6 +1,7 @@
 "use client";
 
-import { capitalizeFirstLetter } from "../utils/helper";
+import React from "react";
+import { capitalizeFirstLetter } from "@/utils/helper";
 
 interface CategoryPillProps {
   category: string,

@@ -1,5 +1,6 @@
+import React from "react";
 import type { Metadata } from "next";
-import "../styles/globals.css";
+import "@/styles/globals.css";
 import { Urbanist } from 'next/font/google'
 import Header from "../components/Header";
 

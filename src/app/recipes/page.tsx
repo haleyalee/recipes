@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { categories } from "@/lib/db";
 import RecipeCard from "@/components/RecipeCard";
 import CategoryPill from "@/components/CategoryPill";

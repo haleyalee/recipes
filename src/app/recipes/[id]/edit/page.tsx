@@ -1,5 +1,6 @@
-import RecipeForm from "@/src/components/RecipeForm";
-import { recipeData } from "@/src/lib/placeholder-data";
+import React from "react";
+import RecipeForm from "@/components/RecipeForm";
+import { recipeData } from "@/lib/placeholder-data";
 
 interface EditRecipeFormProps {
   params: Promise<{ id:string }>

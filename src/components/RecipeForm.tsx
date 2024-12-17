@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { FormType, RecipeDetails } from "../lib/definitions";
-import { useRouter } from 'next/navigation';
+import React, { useState } from "react";
+import { FormType, RecipeDetails } from "@/lib/definitions";
+import { categories } from "@/lib/placeholder-data";
+import { capitalizeFirstLetter } from "@/utils/helper";
+import { useAddRecipe } from "@/hooks/useAddRecipe";
+import { useEditRecipe } from "@/hooks/useEditRecipe";
 import BackButton from "./BackButton";
 import PageHeader from "./PageHeader";
-import { categories } from "../lib/placeholder-data";
-import { capitalizeFirstLetter, getCategoryForRecipe, getPathFromName } from "../utils/helper";
 
 const delimiter = "\n";
 
@@ -16,17 +17,16 @@ interface RecipeFormProps {
 }
 
 export default function RecipeForm({
-  data = { name: "", ingredients: [""], instructions: [""], notes: "" },
+  data = { name: "", category: [], ingredients: [], instructions: [], notes: "" },
   type
 }: RecipeFormProps) {
-
-  const router = useRouter();
-  const path = getPathFromName(data.name);
+  const { addRecipe, error: addError } = useAddRecipe();
+  const { editRecipe, error: editError } = useEditRecipe();
 
   const [formData, setFormData] = useState({
     name: data.name,
-    categories: getCategoryForRecipe(path),
-    // If editing an existing recipe, convert string[] to string separated by commas
+    categories: data.category,
+    // If editing an existing recipe, convert string[] to string separated by newlines
     ingredients: data.ingredients.join(delimiter),
     instructions: data.instructions.join(delimiter),
     notes: data.notes
@@ -91,33 +91,21 @@ export default function RecipeForm({
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Process data
     const processedData = {
       name: formData.name,
+      category: formData.categories,
       ingredients: formData.ingredients.split(delimiter).map((item) => item.trim()),
       instructions: formData.instructions.split(delimiter).map((item) => item.trim()),
       notes: formData.notes
     };
 
-    // Process new categories
-    // Update running list of all categories
-
-    console.log("Categories Updated", formData.categories);
-    console.log("Recipe Submitted:", processedData);
-
-    // TODO: Add logic to save the recipe
-
-    // Redirect
-    if (window.history.length > 1) {
-      router.back();
-    } else {
-      router.push('/recipes');
-    }
+    if (type === "edit") editRecipe(processedData);
+    else if (type === "add") addRecipe(processedData);
+    else console.log("Error submitting form for data: ", processedData);
   };
-
   
   return (
     <div>
@@ -257,6 +245,7 @@ export default function RecipeForm({
           >
             { formText.submitBtn }
           </button>
+          {addError || editError && <p className="error">{addError || editError}</p>}
         </div>
       </form>
     </div>

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { recipes, recipeData } from '@/lib/db';
+import { recipes, recipeData, categories } from '@/lib/db';
 import { Recipe, RecipeDetails } from '@/lib/definitions';
 import { getSlugFromName } from '@/utils/helper';
 
@@ -34,6 +34,14 @@ export async function POST(request: Request) {
   // Add new recipe to recipes and recipeData
   recipes.push(newRecipe);
   recipeData[slug] = { name, category, ingredients, instructions, notes };
+
+  // Add new categories to category list (if the category is new)
+  category.forEach(c => {
+    if (!categories.includes(c)) {
+      categories.push(c);
+      console.log(`New category added: ${c}`);
+    }
+  })
 
   return NextResponse.json(newRecipe, { status: 201 });
 }

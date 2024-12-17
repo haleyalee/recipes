@@ -1,9 +1,10 @@
 "use client";
 
+import React from "react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { getPathFromName } from "../utils/helper";
-import { recipes } from "../lib/placeholder-data";
+import { getSlugFromName } from "@/utils/helper";
+import { recipes } from "@/lib/placeholder-data";
 
 export default function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -31,9 +32,9 @@ export default function SearchBar() {
   const handleSuggestionClick = (suggestion: string) => {
     console.log("Suggest search query: ", suggestion);
     setSearchQuery(suggestion);
-    const path = getPathFromName(suggestion);
+    const slug = getSlugFromName(suggestion);
     // router.push(`/search?query=${encodeURIComponent(suggestion)}`);
-    router.push(`/recipes/${path}`);
+    router.push(`/recipes/${slug}`);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

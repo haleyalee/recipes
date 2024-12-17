@@ -1,7 +1,8 @@
 "use client";
 
-import SearchBar from "./SearchBar";
+import React from "react";
 import { usePathname } from "next/navigation";
+import SearchBar from "./SearchBar";
 
 export default function Header() {
   const path = usePathname();

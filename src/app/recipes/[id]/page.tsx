@@ -1,20 +1,37 @@
-import BackButton from "@/src/components/BackButton";
-import CategoryPill from "@/src/components/CategoryPill";
-import PageHeader from "@/src/components/PageHeader";
-import RedirectButton from "@/src/components/RedirectButton";
-import { recipeData } from "@/src/lib/placeholder-data";
-import { getCategoryForRecipe } from "@/src/utils/helper";
-import { notFound } from "next/navigation";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import BackButton from "@/components/BackButton";
+import CategoryPill from "@/components/CategoryPill";
+import PageHeader from "@/components/PageHeader";
+import RedirectButton from "@/components/RedirectButton";
+import { useRecipe } from "@/hooks/useRecipe";
 
 interface RecipeDetailPageProps {
-  params: Promise<{ id:string }>
+  params: Promise<{ id: string }>
 }
 
-export default async function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
-  const slug = (await params).id;
-  const recipe = recipeData[slug];
+export default function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
+  const [slug, setSlug] = useState("");
+  const [error, setError] = useState("");
+  const { recipe, error: recipeError, loading } = useRecipe(slug);
 
-  if (!recipe) notFound();
+  useEffect(() => {
+    params
+      .then((resolvedParams) => {
+        setSlug(resolvedParams.id);
+      })
+      .catch((err) => {
+        console.error("Failed to resolve params:", err);
+        setError("Invalid or missing recipe ID.");
+      });
+  }, [params]);
+
+  // TODO: implement loading page
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="error-message">Error fetching params: {error}</div>;
+  if (recipeError) return <div className="error-message">Error fetching recipe: {recipeError}</div>;
+  if (!recipe) return <div className="error-message">Recipe not found.</div>;
 
   return (
     <div>
@@ -25,7 +42,7 @@ export default async function RecipeDetailPage({ params }: RecipeDetailPageProps
           <RedirectButton path={`${slug}/edit`}>Edit Recipe</RedirectButton>
         </div>
         <div className="flex flex-row gap-2">
-          {getCategoryForRecipe(slug)?.map((cat, idx) => 
+          {recipe.category.map((cat, idx) => 
             <CategoryPill key={`${slug}-${idx}`} category={cat}/>
           )}
         </div>
