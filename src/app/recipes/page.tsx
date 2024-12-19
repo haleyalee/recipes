@@ -1,25 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { categories } from "@/lib/db";
-import RecipeCard from "@/components/RecipeCard";
 import CategoryPill from "@/components/CategoryPill";
 import RedirectButton from "@/components/RedirectButton";
 import PageHeader from "@/components/PageHeader";
-import { getRecipeDetailsByName } from "@/utils/helper";
 import { useRecipes } from "@/hooks/useRecipes";
+import { useCategories } from "@/hooks/useCategories";
+import RecipeList from "@/components/RecipeList";
 
 export default function RecipeListPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const { recipes, error } = useRecipes();
-
-  // Filter recipes dynamically by category
-  const filteredRecipes = selectedCategories.length > 0
-    ? recipes.filter((recipe) => {
-        const recipeDetails = getRecipeDetailsByName(recipe.name);
-        return recipeDetails?.category.some((cat) => selectedCategories.includes(cat));
-      })
-    : recipes;
+  const { categories } = useCategories();
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>
@@ -38,6 +30,7 @@ export default function RecipeListPage() {
         <RedirectButton path="add-recipe">+ Recipe</RedirectButton>
       </div>
 
+      {/* TODO: sort category pills alphabetically? */}
       {/* Category Filters */}
       <div className="flex flex-wrap gap-2 mb-4">
         { categories.map((c, idx) => 
@@ -51,11 +44,7 @@ export default function RecipeListPage() {
       </div>
 
       {/* Recipe Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
-        {filteredRecipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
-        ))}
-      </div>
+      <RecipeList recipes={recipes} selectedCategories={selectedCategories} />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { getSlugFromName } from "@/utils/helper";
-import { recipes } from "@/lib/placeholder-data";
+import { useRecipes } from "@/hooks/useRecipes";
 
 export default function SearchBar() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -13,6 +13,8 @@ export default function SearchBar() {
 
   const searchInputRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const { recipes } = useRecipes();
   
   // TODO: debounce
   useEffect(() => {
@@ -27,13 +29,12 @@ export default function SearchBar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: implement search logic
+    // TODO: create search page
   }
 
   const handleSuggestionClick = (suggestion: string) => {
-    console.log("Suggest search query: ", suggestion);
     setSearchQuery(suggestion);
     const slug = getSlugFromName(suggestion);
-    // router.push(`/search?query=${encodeURIComponent(suggestion)}`);
     router.push(`/recipes/${slug}`);
   };
 

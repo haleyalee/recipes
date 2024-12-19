@@ -1,26 +1,20 @@
-import { Recipe, RecipeData } from "./definitions";
+import { Pool } from "pg";
 
-const recipes: Recipe[] = [
-  { id: 1, name: "Spaghetti Carbonara" },
-  { id: 2, name: "Chocolate Cake" },
-];
+// PostgreSQL connection pool
+const pool = new Pool({
+  user: process.env.DB_USER,        
+  host: process.env.DB_HOST,        
+  database: process.env.DB_NAME,   
+  password: process.env.DB_PASSWORD,
+  port: 5432,                      
+});
 
-const recipeData: RecipeData = {
-  "spaghetti-carbonara": { 
-    name: "Spaghetti Carbonara", 
-    category: ["dinner", "italian"],
-    ingredients: ["Spaghetti", "Eggs", "Parmesan"], 
-    instructions: ["Cook pasta", "Mix ingredients."], 
-    notes: "Bucatini is my favorite noodle :-)"
-  },
-  "chocolate-cake": { 
-    name: "Chocolate Cake", 
-    category: ["dessert"],
-    ingredients: ["Flour", "Cocoa", "Sugar"], 
-    instructions: ["Mix", "Bake", "Enjoy!"] 
-  }
-};
+export default pool;
 
-const categories = ["italian", "dinner", "dessert"];
-
-export { recipes, recipeData, categories };
+// --- List of Relations ---------------------
+// public | categories         | table | haley        stores unique categories like "dinner", "dessert"
+// public | ingredients        | table | haley        stores unique ingredients like "eggs", "spaghetti"
+// public | recipe_categories  | table | haley        links recipes to categories since a recipe can belong to multiple categories
+// public | recipe_data        | table | haley        stores instructions and optional notes for each recipe
+// public | recipe_ingredients | table | haley        links recipes to ingredients since recipes have multiple ingredients
+// public | recipes            | table | haley        stores basic recipe details like id and name

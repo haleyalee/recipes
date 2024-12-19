@@ -1,17 +1,20 @@
 import { RecipeDetails } from "@/lib/definitions";
+import { getSlugFromName } from "@/utils/helper";
 import { useState, useEffect } from "react";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
-export const useRecipe = (slug: string) => {
+export const useRecipe = (name: string) => {
   const [recipe, setRecipe] = useState<RecipeDetails>({
     name: "",
-    category: [],
+    categories: [],
     ingredients: [],
     instructions: []  
   });
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const slug = getSlugFromName(name);
 
   // GET /api/recipes/[id]
   useEffect(() => {

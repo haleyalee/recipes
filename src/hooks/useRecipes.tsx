@@ -17,7 +17,7 @@ export const useRecipes = () => {
         const response = await fetch(`${API_BASE_URL}/recipes`);
         if (!response.ok) throw new Error(`Error: ${response.statusText}`);
         const data = await response.json();
-        setRecipes(data.recipes);
+        setRecipes(data);
       } catch (error) {
         setError (error instanceof Error ? error.message : "An error occurred while fetching recipes");
         console.error('Error fetching recipes:', error); // Log error to console

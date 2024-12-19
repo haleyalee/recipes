@@ -17,9 +17,11 @@ export const useEditRecipe = () => {
     setLoading(true);
     setError(null);
     setSuccess(false);
-
+    
     if (!recipeData.name) throw new Error("Recipe name is required to generate an ID");
     const id = getSlugFromName(recipeData.name);
+    
+    // TODO: if I edit the recipe name, it will throw an error since no corresponding slug...
 
     try {
       const response = await fetch(`${API_BASE_URL}/recipes/${id}`, {

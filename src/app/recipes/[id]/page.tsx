@@ -42,7 +42,7 @@ export default function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
           <RedirectButton path={`${slug}/edit`}>Edit Recipe</RedirectButton>
         </div>
         <div className="flex flex-row gap-2">
-          {recipe.category.map((cat, idx) => 
+          {recipe.categories?.map((cat, idx) => 
             <CategoryPill key={`${slug}-${idx}`} category={cat}/>
           )}
         </div>
@@ -58,7 +58,7 @@ export default function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
       <div>
         <h2 className="text-xl font-semibold mt-4">Instructions</h2>
         <ol className="list-decimal pl-6">
-          {recipe.instructions.map((instruction, i) => (
+          {recipe.instructions?.map((instruction, i) => (
             <li key={i}>{instruction}</li>
           ))}
         </ol>

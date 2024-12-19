@@ -8,14 +8,14 @@ const recipes: Recipe[] = [
 const recipeData: RecipeData = {
   "spaghetti-carbonara": { 
     name: "Spaghetti Carbonara", 
-    category: ["dinner", "italian"],
+    categories: ["dinner", "italian"],
     ingredients: ["Spaghetti", "Eggs", "Parmesan"], 
     instructions: ["Cook pasta", "Mix ingredients."], 
     notes: "Bucatini is my favorite noodle :-)"
   },
   "chocolate-cake": { 
     name: "Chocolate Cake", 
-    category: ["dessert"],
+    categories: ["dessert"],
     ingredients: ["Flour", "Cocoa", "Sugar"], 
     instructions: ["Mix", "Bake", "Enjoy!"] 
   }
