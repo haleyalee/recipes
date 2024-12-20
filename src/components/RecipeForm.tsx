@@ -2,12 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import { FormType, RecipeDetails } from "@/lib/definitions";
-import { capitalizeFirstLetter } from "@/utils/helper";
+import { capitalizeFirstLetterOfEachWord } from "@/utils/helper";
 import { useAddRecipe } from "@/hooks/useAddRecipe";
 import { useEditRecipe } from "@/hooks/useEditRecipe";
 import BackButton from "./BackButton";
 import PageHeader from "./PageHeader";
 import { useCategories } from "@/hooks/useCategories";
+import { validateForm, ValidationErrors } from "@/utils/formHelper";
 
 const delimiter = "\n";
 
@@ -45,6 +46,7 @@ export default function RecipeForm({
     ingredients: "",
     instructions: "",
   });
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   const [categoryInput, setCategoryInput] = useState("");
   const [filteredCategories, setFilteredCategories] = useState(categories);
 
@@ -98,20 +100,19 @@ export default function RecipeForm({
   };
 
   const handleCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const value = e.target.value.toLowerCase();
     setCategoryInput(value);
 
     // Filter existing categories and include the "Add new category" option
     const filtered = categories.filter(
       (c) =>
-        c.includes(value.toLowerCase()) && !formData.categories.includes(c)
+        c.includes(value) && !formData.categories.includes(c)
     );
     setFilteredCategories(value.trim() ? [...filtered, `Add new category: ${value}`] : filtered);
   };
 
   const handleCategoryAdd = (category: string) => {
     if (!formData.categories.includes(category)) {
-      // Process category
       const processedCat = category.toLowerCase();
       setFormData((prevData) => ({
         ...prevData,
@@ -141,20 +142,33 @@ export default function RecipeForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // TODO: Form Validation...
-    // form name -> no special characters (especially "-" as may mess up slug conversion), force capitalize
-    // trim white space (empty /n??)
+    // TODO: Form Validation
+    const name = capitalizeFirstLetterOfEachWord(formData.name);
+    const categories = formData.categories;
+    const ingredients = formData.ingredients
+      .split("\n")
+      .map((item) => item.trim())
+      .filter((item) => item !== "");
+    const instructions = formData.instructions
+      .split("\n")
+      .map((item) => item.trim()) 
+      .filter((item) => item !== "");
+    const notes = formData.notes;
+
 
     const processedData = {
-      name: formData.name,
-      categories: formData.categories,
-      ingredients: formData.ingredients.split(delimiter).map((item) => item.trim()),
-      instructions: formData.instructions.split(delimiter).map((item) => item.trim()),
-      notes: formData.notes
+      name: name,
+      categories: categories,
+      ingredients: ingredients,
+      instructions: instructions,
+      notes: notes
     };
 
+    const { isValid, errors } = validateForm(processedData);
+
     // TODO: only submit if form actually changed
-    formAction(processedData);
+    if (isValid) formAction(processedData);
+    else setValidationErrors(errors);
   };
   
   return (
@@ -179,11 +193,10 @@ export default function RecipeForm({
             value={formData.name}
             onChange={handleChange}
             className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-            required
           />
+          <div className="mt-1 text-sm text-red-500">{validationErrors.name}</div>
         </div>
 
-        {/* TODO: ensure don't create new category if already exists; FORCE LOWERCASE! */}
         {/* Categories */}
         <div className="mb-4">
           <label htmlFor="categories" className="block text-sm font-medium text-gray-700">
@@ -196,7 +209,7 @@ export default function RecipeForm({
               placeholder="Add categories"
               value={categoryInput}
               onChange={handleCategoryInputChange}
-              className="p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+              className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
             />
             {categoryInput && filteredCategories.length > 0 && (
               <ul className="absolute z-10 bg-white border border-gray-300 mt-1 rounded-md shadow-md w-full max-h-40 overflow-y-auto">
@@ -218,7 +231,7 @@ export default function RecipeForm({
                 key={index}
                 className="inline-flex items-center px-2 py-1 text-sm font-medium bg-gray-200 rounded-full mr-2"
               >
-                {capitalizeFirstLetter(category)}
+                {capitalizeFirstLetterOfEachWord(category)}
                 <button
                   type="button"
                   onClick={() => handleRemoveCategory(category)}
@@ -229,6 +242,7 @@ export default function RecipeForm({
               </span>
             ))}
           </div>
+          <div className="mt-1 text-sm text-red-500">{validationErrors.categories}</div>
         </div>
 
         {/* Ingredients */}
@@ -247,8 +261,8 @@ export default function RecipeForm({
             value={formData.ingredients}
             onChange={handleChange}
             className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-            required
           />
+          <div className="mt-1 text-sm text-red-500">{validationErrors.ingredients}</div>
         </div>
 
         {/* Instructions */}
@@ -267,8 +281,8 @@ export default function RecipeForm({
             value={formData.instructions}
             onChange={handleChange}
             className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-            required
           />
+          <div className="mt-1 text-sm text-red-500">{validationErrors.instructions}</div>
         </div>
 
         {/* Notes */}

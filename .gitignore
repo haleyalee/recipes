@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/src/scripts/testPool.mjs
 
 # next.js
 /.next/
