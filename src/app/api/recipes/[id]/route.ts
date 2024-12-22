@@ -14,7 +14,6 @@ import { getNameFromSlug } from '@/utils/helper';
  *  }
  */
 
-// TODO: when I edit a recipe it still retrieves the old one when I edit it again
 export async function GET(request: Request, context: { params: { id: string } } ) {
   const { id: slug } = context.params;
   const name = getNameFromSlug(slug);

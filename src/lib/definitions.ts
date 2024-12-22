@@ -8,6 +8,7 @@ interface Recipe {
 
 // Recipe data (detailed information for each recipe)
 type RecipeDetails = {
+  id?: number;
   name: string;
   categories: string[];
   ingredients: string[];

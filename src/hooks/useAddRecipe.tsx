@@ -30,7 +30,6 @@ export const useAddRecipe = () => {
 
       setSuccess(true);
 
-      // TODO: Redirect
       if (window.history.length > 1) {
         router.back();
       } else {

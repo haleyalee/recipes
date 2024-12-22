@@ -19,7 +19,6 @@ export const useCategories = () => {
           throw new Error(`Error: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log("categories", data);
         setCategories(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");

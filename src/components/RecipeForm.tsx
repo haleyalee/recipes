@@ -46,6 +46,7 @@ export default function RecipeForm({
     ingredients: "",
     instructions: "",
   });
+  const [hasChanged, setHasChanged] = useState(false);
   const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
   const [categoryInput, setCategoryInput] = useState("");
   const [filteredCategories, setFilteredCategories] = useState(categories);
@@ -65,10 +66,23 @@ export default function RecipeForm({
         categories: data.categories,
         ingredients: data.ingredients.join(delimiter),
         instructions: data.instructions.join(delimiter),
-        notes: data.notes ?? ""
+        notes: data.notes ?? undefined
       })
     }
   }, [data]);
+
+  useEffect(() => {
+    const originalData = JSON.stringify(data);
+    const newData = JSON.stringify({
+      id: data.id,
+      ...formData, 
+      ingredients: formData.ingredients ? formData.ingredients.split(delimiter) : [], 
+      instructions: formData.instructions ? formData.instructions.split(delimiter) : []
+    });
+    if (originalData !== newData) {
+      setHasChanged(true);
+    }
+  }, [formData]);
 
   if (type === "edit") {
     const { editRecipe, error: editError } = useEditRecipe();
@@ -142,7 +156,7 @@ export default function RecipeForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // TODO: Form Validation
+    // Clean up and reformat
     const name = capitalizeFirstLetterOfEachWord(formData.name);
     const categories = formData.categories;
     const ingredients = formData.ingredients
@@ -155,7 +169,6 @@ export default function RecipeForm({
       .filter((item) => item !== "");
     const notes = formData.notes;
 
-
     const processedData = {
       name: name,
       categories: categories,
@@ -166,15 +179,13 @@ export default function RecipeForm({
 
     const { isValid, errors } = validateForm(processedData);
 
-    // TODO: only submit if form actually changed
     if (isValid) formAction(processedData);
     else setValidationErrors(errors);
   };
   
   return (
     <div>
-      {/* TODO: only ask for confirmation if form changed */}
-      <BackButton confirm={type === "edit"}>{ formText.backBtn }</BackButton>
+      <BackButton confirm={hasChanged}>{ formText.backBtn }</BackButton>
       <PageHeader>{formText.title}</PageHeader>
       <form className="mt-4" onSubmit={handleSubmit}>
         {/* Recipe name */}
