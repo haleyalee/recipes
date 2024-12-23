@@ -5,7 +5,7 @@ import { FormType, RecipeDetails } from "@/lib/definitions";
 import { capitalizeFirstLetterOfEachWord } from "@/utils/helper";
 import { useAddRecipe } from "@/hooks/useAddRecipe";
 import { useEditRecipe } from "@/hooks/useEditRecipe";
-import BackButton from "./BackButton";
+import BackButton from "./buttons/BackButton";
 import PageHeader from "./PageHeader";
 import { useCategories } from "@/hooks/useCategories";
 import { validateForm, ValidationErrors } from "@/utils/formHelper";
@@ -153,6 +153,7 @@ export default function RecipeForm({
     }));
   };
 
+  // TODO: Hitting enter should not auto submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     

@@ -161,6 +161,7 @@ export async function PUT(request: Request, context: { params: { id: string } })
         [recipeId]
       );
 
+      // TODO: Separate specific ingredients from their measurements (for search by ingredient?)
       // Add new ingredients
       for (const ingredient of ingredients) {
         const ingredientResult = await pool.query(
@@ -219,6 +220,7 @@ export async function DELETE(request: Request, context: { params: { id: string }
 
     const recipeId = recipeResult.rows[0].id;
 
+    // TODO: Delete ingredient from ingredients table if not used in any recipes ? 
     // Delete related data first (categories, ingredients, recipe data)
     await pool.query('DELETE FROM recipe_categories WHERE recipe_id = $1', [recipeId]);
     await pool.query('DELETE FROM recipe_ingredients WHERE recipe_id = $1', [recipeId]);

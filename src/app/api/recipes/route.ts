@@ -26,6 +26,7 @@ export async function GET() {
  *    notes: "New note"
  *  }
  */
+// TODO: something about the IDs is weird
 export async function POST(request: Request) {
   const { name, categories, ingredients, instructions, notes }: RecipeDetails = await request.json();
   const client = await pool.connect();

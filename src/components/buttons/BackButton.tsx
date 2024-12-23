@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import ConfirmationModal from "./ConfirmationModal";
+import ConfirmationModal from "@/components/ConfirmationModal";
+import { useRouter } from "next/navigation";
 
 interface BackButtonProps {
   confirm?: boolean,
@@ -10,6 +11,7 @@ interface BackButtonProps {
 
 export default function BackButton({ confirm, children }: BackButtonProps) {
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   const handleClick = (e: { preventDefault: () => void; }) => {
     if (confirm) {
@@ -18,10 +20,14 @@ export default function BackButton({ confirm, children }: BackButtonProps) {
     }
   }
 
-  const closeModal = () => {
+  const handleClose = () => {
     setShowModal(false);
   }
-
+  
+  const handleConfirm = () => {
+    setShowModal(false);
+    router.back();
+  }
   return (
     <>
       <a 
@@ -31,7 +37,12 @@ export default function BackButton({ confirm, children }: BackButtonProps) {
         >
         {`< ${ children }`}
       </a>
-      <ConfirmationModal isOpen={showModal} onClose={closeModal} />
+      <ConfirmationModal 
+        isOpen={showModal} 
+        onClose={handleClose} 
+        onConfirm={handleConfirm} 
+        description="Your changes will not be saved. Are you sure you want to continue?"
+      />
     </>
   );
 }

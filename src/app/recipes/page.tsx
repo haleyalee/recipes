@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import CategoryPill from "@/components/CategoryPill";
-import RedirectButton from "@/components/RedirectButton";
-import PageHeader from "@/components/PageHeader";
 import { useRecipes } from "@/hooks/useRecipes";
 import { useCategories } from "@/hooks/useCategories";
+import PageHeader from "@/components/PageHeader";
 import RecipeList from "@/components/RecipeList";
+import CategoryPill from "@/components/CategoryPill";
+import RedirectButton from "@/components/buttons/RedirectButton";
+import AddIcon from "@/components/icons/AddIcon";
 
 export default function RecipeListPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -27,7 +28,10 @@ export default function RecipeListPage() {
 
       <div className="flex flex-row justify-between mb-4">
         <PageHeader>All Recipes</PageHeader>
-        <RedirectButton path="add-recipe">+ Recipe</RedirectButton>
+        <RedirectButton path="add-recipe">
+          <AddIcon />
+          <span className="ml-1">Recipe</span>
+        </RedirectButton>
       </div>
 
       {/* TODO: sort category pills alphabetically? */}

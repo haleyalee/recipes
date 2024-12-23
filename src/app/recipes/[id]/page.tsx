@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/buttons/BackButton";
 import CategoryPill from "@/components/CategoryPill";
 import PageHeader from "@/components/PageHeader";
-import RedirectButton from "@/components/RedirectButton";
+import RedirectButton from "@/components/buttons/RedirectButton";
 import { useRecipe } from "@/hooks/useRecipe";
+import DeleteRecipeButton from "@/components/buttons/DeleteRecipeButton";
+import EditIcon from "@/components/icons/EditIcon";
 
 interface RecipeDetailPageProps {
   params: Promise<{ id: string }>
@@ -39,7 +41,13 @@ export default function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
       <div className="mb-8">
         <div className="flex flex-row justify-between mb-4">
           <PageHeader>{recipe.name}</PageHeader>
-          <RedirectButton path={`${slug}/edit`}>Edit Recipe</RedirectButton>
+          <div className="flex flex-row gap-1">
+            <RedirectButton path={`${slug}/edit`}>
+              <EditIcon />
+              <span className="ml-1">Edit Recipe</span>
+            </RedirectButton>
+            <DeleteRecipeButton slug={slug} />
+          </div>
         </div>
         <div className="flex flex-row gap-2">
           {recipe.categories?.map((cat, idx) => 

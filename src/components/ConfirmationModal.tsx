@@ -1,17 +1,19 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 
 interface ConfirmationModalProps {
   isOpen: boolean,
-  onClose: ()=>void
+  onClose: ()=>void,
+  onConfirm: ()=>void,
+  title?: string,
+  description: string,
+  confirmBtn?: string
 }
 
-export default function ConfirmationModal({ isOpen, onClose }: ConfirmationModalProps) {
+export default function ConfirmationModal({ isOpen, onClose, onConfirm, title, description, confirmBtn = "Yes, take me back" }: ConfirmationModalProps) {
   const [animate, setAnimate] = useState(false);
   const modalRef = useRef<HTMLDivElement|null>(null);
-  const router = useRouter();
   
   useEffect(() => {
     if (isOpen) setAnimate(true);
@@ -40,11 +42,6 @@ export default function ConfirmationModal({ isOpen, onClose }: ConfirmationModal
     }
   };
   
-  const handleGoBack = () => {
-    onClose();
-    router.back();
-  };
-  
   return (
     isOpen ? (
       <div 
@@ -54,15 +51,16 @@ export default function ConfirmationModal({ isOpen, onClose }: ConfirmationModal
         <div 
           ref={modalRef}
           className={`absolute flex flex-col bg-gray-100 w-2/4 h-fit p-8 rounded-md items-center justify-center shadow-lg transition-transform duration-500 transform ${animate ? 'scale-100' : 'scale-95'}`}
-        >
-          <h2 className="text-md mb-4">Your changes will not be saved. Are you sure you want to continue?</h2>
+          >
+          {title && <h2>{title}</h2>}
+          <h3 className="text-md mb-4">{description}</h3>
           <div className="flex gap-4">
             <button 
               id="go-back__btn"
               className="bg-linkGreen text-white px-3 py-1 rounded-full hover:bg-hoverGreen shadow-sm"
-              onClick={handleGoBack}
+              onClick={onConfirm}
             >
-              Yes, take me back
+              {confirmBtn}
             </button>
             <button 
               id="cancel__btn"
