@@ -9,6 +9,7 @@ import BackButton from "./buttons/BackButton";
 import PageHeader from "./PageHeader";
 import { useCategories } from "@/hooks/useCategories";
 import { validateForm, ValidationErrors } from "@/utils/formHelper";
+import FormSubheader from "./FormSubheader";
 
 const delimiter = "\n";
 
@@ -185,147 +186,127 @@ export default function RecipeForm({
   };
   
   return (
-    <div>
+    <div className="p-4">
       <BackButton confirm={hasChanged}>{ formText.backBtn }</BackButton>
-      <PageHeader>{formText.title}</PageHeader>
-      <form className="mt-4" onSubmit={handleSubmit}>
-        {/* Recipe name */}
-        <div className="mb-4">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Recipe Name
-          </label>
-          <input 
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Recipe Name"
-            value={formData.name}
-            onChange={handleChange}
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-          />
-          <div className="mt-1 text-sm text-red-500">{validationErrors.name}</div>
-        </div>
-
-        {/* Categories */}
-        <div className="mb-4">
-          <label htmlFor="categories" className="block text-sm font-medium text-gray-700">
-            Categories
-          </label>
-          <div className="relative">
-            <input
-              id="categories"
+      <div className="w-8/12 mx-auto pb-8 mt-8">
+        <PageHeader>{formText.title}</PageHeader>
+        <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
+          {/* Recipe name */}
+          <div className="mb-4">
+            <FormSubheader htmlFor="name">Recipe Name</FormSubheader>
+            <input 
+              id="name"
+              name="name"
               type="text"
-              placeholder="Add categories"
-              value={categoryInput}
-              onChange={handleCategoryInputChange}
-              className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+              placeholder="Recipe Name"
+              value={formData.name}
+              onChange={handleChange}
+              className="mt-4 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
             />
-            {categoryInput && filteredCategories.length > 0 && (
-              <ul className="absolute z-10 bg-white border border-gray-300 mt-1 rounded-md shadow-md w-full max-h-40 overflow-y-auto">
-                {filteredCategories.map((category, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleDropdownClick(category)}
-                    className="cursor-pointer p-2 hover:bg-gray-100"
-                  >
-                    {category}
-                  </li>
-                ))}
-              </ul>
-            )}
+            <div className="mt-1 text-sm text-red-500">{validationErrors.name}</div>
           </div>
-          <div className="mt-2">
-            {formData.categories?.map((category, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center px-2 py-1 text-sm font-medium bg-gray-200 rounded-full mr-2"
-              >
-                {capitalizeFirstLetterOfEachWord(category)}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveCategory(category)}
-                  className="ml-1 text-red-500 hover:text-red-700"
+
+          {/* Categories */}
+          <div className="mb-4">
+            <FormSubheader htmlFor={"categories"}>Categories</FormSubheader>
+            <div className="relative">
+              <input
+                id="categories"
+                type="text"
+                placeholder="Add categories"
+                value={categoryInput}
+                onChange={handleCategoryInputChange}
+                className="mt-4 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+              />
+              {categoryInput && filteredCategories.length > 0 && (
+                <ul className="absolute z-10 bg-white border border-gray-300 mt-1 rounded-md shadow-md w-full max-h-40 overflow-y-auto">
+                  {filteredCategories.map((category, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleDropdownClick(category)}
+                      className="cursor-pointer p-2 hover:bg-gray-100"
+                    >
+                      {category}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+            <div className="mt-2">
+              {formData.categories?.map((category, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center px-2 py-1 text-sm font-medium bg-gray-200 rounded-full mr-2"
                 >
-                  ✕
-                </button>
-              </span>
-            ))}
+                  {capitalizeFirstLetterOfEachWord(category)}
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveCategory(category)}
+                    className="ml-1 text-red-500 hover:text-red-700"
+                  >
+                    ✕
+                  </button>
+                </span>
+              ))}
+            </div>
+            <div className="mt-1 text-sm text-red-500">{validationErrors.categories}</div>
           </div>
-          <div className="mt-1 text-sm text-red-500">{validationErrors.categories}</div>
-        </div>
 
-        {/* Ingredients */}
-        <div className="mb-4">
-          <label
-            htmlFor="ingredients"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Ingredients
-          </label>
-          <textarea 
-            id="ingredients"
-            name="ingredients"
-            placeholder="Ingredients (separated by a new line)"
-            rows={4}
-            value={formData.ingredients}
-            onChange={handleChange}
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-          />
-          <div className="mt-1 text-sm text-red-500">{validationErrors.ingredients}</div>
-        </div>
+          {/* Ingredients */}
+          <div className="mb-4">
+            <FormSubheader htmlFor="ingredients">Ingredients</FormSubheader>
+            <textarea 
+              id="ingredients"
+              name="ingredients"
+              placeholder="Ingredients (separated by a new line)"
+              rows={6}
+              value={formData.ingredients}
+              onChange={handleChange}
+              className="mt-4 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            />
+            <div className="mt-1 text-sm text-red-500">{validationErrors.ingredients}</div>
+          </div>
 
-        {/* Instructions */}
-        <div className="mb-4">
-          <label
-            htmlFor="instructions"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Instructions
-          </label>
-          <textarea
-            id="instructions"
-            name="instructions"
-            placeholder="Instructions (separated by a new line)"
-            rows={6}
-            value={formData.instructions}
-            onChange={handleChange}
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-          />
-          <div className="mt-1 text-sm text-red-500">{validationErrors.instructions}</div>
-        </div>
+          {/* Instructions */}
+          <div className="mb-4">
+            <FormSubheader htmlFor="instructions">Instructions</FormSubheader>
+            <textarea
+              id="instructions"
+              name="instructions"
+              placeholder="Instructions (separated by a new line)"
+              rows={8}
+              value={formData.instructions}
+              onChange={handleChange}
+              className="mt-4 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            />
+            <div className="mt-1 text-sm text-red-500">{validationErrors.instructions}</div>
+          </div>
 
-        {/* Notes */}
-        <div className="mb-4">
-          <label
-            htmlFor="notes"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Notes
-          </label>
-          <textarea
-            id="notes"
-            name="notes"
-            placeholder="Any additional comments"
-            value={formData.notes}
-            onChange={handleChange}
-            className="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
-          />
-        </div>
+          {/* Notes */}
+          <div className="mb-4">
+            <FormSubheader htmlFor="notes">Notes</FormSubheader>
+            <textarea
+              id="notes"
+              name="notes"
+              placeholder="Any additional comments"
+              value={formData.notes}
+              onChange={handleChange}
+              className="mt-4 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
+            />
+          </div>
 
-        {/* Submit button */}
-        <div>
-          <button
-            type="submit"
-            className="px-3 py-1 bg-linkGreen text-white font-medium rounded-full shadow-sm hover:bg-hoverGreen"
-          >
-            { formText.submitBtn }
-          </button>
-          {formError && <p className="error">{formError}</p>}
-        </div>
-      </form>
+          {/* Submit button */}
+          <div>
+            <button
+              type="submit"
+              className="mt-4 px-3 py-1 bg-linkGreen text-white font-medium rounded-full shadow-sm hover:bg-hoverGreen"
+            >
+              { formText.submitBtn }
+            </button>
+            {formError && <p className="error">{formError}</p>}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

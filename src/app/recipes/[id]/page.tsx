@@ -51,7 +51,7 @@ export default function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
             </div>
         </div>
 
-        <div>
+        <div className="mb-12">
           <PageHeader>{recipe.name}</PageHeader>  
           <div className="flex flex-row gap-2">
             {recipe.categories?.map((cat, idx) => 
@@ -78,7 +78,7 @@ export default function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
         { recipe.notes && 
           <div>
             <PageSubheader>Notes</PageSubheader>
-            <p className="min-h-[600px]">{recipe.notes}</p>
+            <p>{recipe.notes}</p>
           </div>
         }
       </div>

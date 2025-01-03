@@ -34,7 +34,7 @@ export default function RootLayout({
     <html lang="en" className={urbanist.className}>
       <body className="bg-gray-100 text-gray-900">
         {/* <Header /> */}
-        <main className="container md:px-0">{children}</main>
+        <main>{children}</main>
       </body>
     </html>
   );

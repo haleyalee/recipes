@@ -6,6 +6,6 @@ interface PageSubheaderProps {
 
 export default function PageSubheader({ children } : PageSubheaderProps) {
   return (
-    <h2 className="text-sm font-semibold my-4 text-linkGreen">{children}</h2>
+    <h2 className="text-sm font-semibold my-4 text-green">{children}</h2>
   );
 }
