@@ -6,6 +6,6 @@ interface PageHeaderProps {
 
 export default function PageHeader({ children } : PageHeaderProps) {
   return (
-    <h1 className="text-2xl font-bold">{ children }</h1>
+    <h1 className="text-6xl font-extrabold mb-4">{ children }</h1>
   );
 }

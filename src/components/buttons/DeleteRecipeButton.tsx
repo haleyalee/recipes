@@ -8,9 +8,10 @@ import ConfirmationModal from "../ConfirmationModal";
 
 interface DeleteRecipeButtonProps {
   slug: string,
+  buttonTxt?: string
 }
 
-export default function DeleteRecipeButton({ slug }: DeleteRecipeButtonProps) {
+export default function DeleteRecipeButton({ slug, buttonTxt }: DeleteRecipeButtonProps) {
   const router = useRouter();
   const { deleteRecipe, error } = useDeleteRecipe();
   const [showModal, setShowModal] = useState(false);
@@ -43,7 +44,7 @@ export default function DeleteRecipeButton({ slug }: DeleteRecipeButtonProps) {
         onClick={handleClick}
       >
         <DeleteIcon />
-        <span className="ml-1">Delete Recipe</span>
+        {buttonTxt && <span className="ml-1">{buttonTxt}</span>}
       </button>
       { error && <div>${error}</div> }
       <ConfirmationModal 
