@@ -8,6 +8,9 @@ import RecipeList from "@/components/RecipeList";
 import CategoryPill from "@/components/CategoryPill";
 import RedirectButton from "@/components/buttons/RedirectButton";
 import AddIcon from "@/components/icons/AddIcon";
+import SearchBar from "@/components/SearchBar";
+import RecipeImage from "@/components/RecipeImage";
+import Link from "next/link";
 
 export default function RecipeListPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -23,32 +26,37 @@ export default function RecipeListPage() {
   };
 
   return (
-    <div>
-      {error && <div className="error-message">{error}</div>}
+    <div className="flex flex-col w-screen md:flex-row gap-0 md:gap-8">
+      <RecipeImage/>
+      <div className="w-full md:w-8/12 lg:w-9/12 h-auto overflow-y-auto p-4 pb-12">
+        <div className="flex flex-row items-center justify-end gap-2 h-10 mb-2 md:mb-0">
+          <SearchBar />
+          <RedirectButton path="add-recipe">
+            <AddIcon />
+          </RedirectButton>
+        </div>
 
-      <div className="flex flex-row justify-between mb-4">
-        <PageHeader>All Recipes</PageHeader>
-        <RedirectButton path="add-recipe">
-          <AddIcon />
-          <span className="ml-1">Recipe</span>
-        </RedirectButton>
+        <Link href="/">
+          <PageHeader>Recipes</PageHeader>
+        </Link>
+
+        {/* Category Filters */}
+        {/* TODO: sort category pills alphabetically? */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          { categories.map((c, idx) => 
+            <CategoryPill 
+              key={idx} 
+              category={c} 
+              isSelected={selectedCategories.includes(c)}
+              toggleCategory={toggleCategory} 
+            />
+          )}
+        </div>
+        <div className="mt-12">
+          {error && <div className="error-message">{error}</div>}
+          <RecipeList recipes={recipes} selectedCategories={selectedCategories} />
+        </div>
       </div>
-
-      {/* TODO: sort category pills alphabetically? */}
-      {/* Category Filters */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        { categories.map((c, idx) => 
-          <CategoryPill 
-            key={idx} 
-            category={c} 
-            isSelected={selectedCategories.includes(c)}
-            toggleCategory={toggleCategory} 
-          />
-        )}
-      </div>
-
-      {/* Recipe Cards */}
-      <RecipeList recipes={recipes} selectedCategories={selectedCategories} />
     </div>
   );
 }

@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import { Urbanist } from 'next/font/google';
 // import { IBM_Plex_Sans, Lexend_Deca } from 'next/font/google';
-import Header from "../components/Header";
 
 export const metadata: Metadata = {
   title: "Recipes",
@@ -33,7 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={urbanist.className}>
       <body className="bg-gray-100 text-gray-900">
-        {/* <Header /> */}
         <main>{children}</main>
       </body>
     </html>

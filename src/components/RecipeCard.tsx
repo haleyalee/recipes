@@ -27,7 +27,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         href={`/recipes/${slug}`} 
         className="mt-3 hover:underline text-linkGreen text-xs text-right"
       >
-        View Recipe
+        View Recipe &gt;
       </Link>
     </div>
   );

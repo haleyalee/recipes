@@ -62,7 +62,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="relative w-full max-w-md" ref={searchInputRef}>
+    <div className="relative w-fit" ref={searchInputRef}>
       <form onSubmit={handleSearch} className="flex items-center gap-2">
         {/* Search Bar */}
         <input
