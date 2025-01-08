@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
 import { getNameFromSlug } from '@/utils/helper';
+import { supabase } from '@/lib/storage/supabaseClient';
+import { deleteFileFromBucket } from '@/utils/deleteImage';
 
 /*
  *  GET /api/recipes/[id] - Fetch a specific recipe by ID
@@ -10,6 +12,7 @@ import { getNameFromSlug } from '@/utils/helper';
  *    "categories": ["category", ...],
  *    "ingredients": ["ingredient", ...],
  *    "instructions": ["instruction", ...],
+ *    "image": "publicImageURL",
  *    "notes": "Notes"
  *  }
  */
@@ -61,6 +64,7 @@ export async function GET(request: Request, context: { params: { id: string } } 
       categories,
       ingredients,
       instructions,
+      image: recipe.image,
       notes,
     };
 
@@ -82,6 +86,7 @@ export async function GET(request: Request, context: { params: { id: string } } 
  *    "categories": ["new category", ...],
  *    "ingredients": ["new ingredient", ...],
  *    "instructions": ["new instruction", ...],
+ *    "image": "publicImageURL",
  *    "notes": "Updated notes"
  *  }
  */
@@ -91,7 +96,7 @@ export async function PUT(request: Request, context: { params: { id: string } })
 
   try {
     const body = await request.json();
-    const { name: newName, categories, ingredients, instructions, notes } = body;
+    const { name: newName, categories, ingredients, instructions, image, notes } = body;
 
     // Fetch the recipe ID based on the current name
     const recipeResult = await pool.query(
@@ -119,6 +124,14 @@ export async function PUT(request: Request, context: { params: { id: string } })
       'UPDATE recipe_data SET instructions = $1, notes = $2 WHERE recipe_id = $3',
       [instructions, notes, recipeId]
     );
+
+    // Update image URL
+    if (image) {
+      await pool.query(
+        'UPDATE recipes SET image = $1 WHERE id = $2',
+        [image, recipeId]  // Save the image URL in the recipe table
+      );
+    }
 
     // Update categories
     if (categories && categories.length > 0) {
@@ -204,6 +217,7 @@ export async function PUT(request: Request, context: { params: { id: string } })
  *  DELETE /api/recipes/[id] - Delete a specific recipe by slug
  *  @returns { message: "Recipe deleted successfully" } or { error: "..." }
  */
+// TODO: I don't think this removed the image from the bucket
 export async function DELETE(request: Request, context: { params: { id: string } }) {
   const { id: slug } = context.params;
   const name = getNameFromSlug(slug);
@@ -211,7 +225,7 @@ export async function DELETE(request: Request, context: { params: { id: string }
   try {
     // Fetch the recipe by name
     const recipeResult = await pool.query(
-      'SELECT id FROM recipes WHERE name = $1',
+      'SELECT id, image FROM recipes WHERE name = $1',
       [name]
     );
 
@@ -219,9 +233,25 @@ export async function DELETE(request: Request, context: { params: { id: string }
       return NextResponse.json({ error: "Recipe not found" }, { status: 404 });
     }
 
-    const recipeId = recipeResult.rows[0].id;
+    const recipe = recipeResult.rows[0];
+    const recipeId = recipe.id;
+    const imageUrl = recipe.image; // URL of the image in storage
 
-    // TODO: Delete ingredient from ingredients table if not used in any recipes ? 
+    // Delete the image from Supabase storage if it exists
+    if (imageUrl) {
+      const filePath = imageUrl.split('/').slice(-2).join('/'); // Extract bucket path from the URL
+      const { error } = await supabase.storage.from('recipe-images').remove([filePath]);
+      if (error) {
+        console.error("Error deleting image from storage:", error.message);
+      }
+    }
+    
+    // If the image URL exists, delete the image from the storage bucket
+    if (imageUrl) {
+      // Assuming you have a function to delete the image from the bucket
+      await deleteFileFromBucket(imageUrl);
+    }
+
     // Delete related data first (categories, ingredients, recipe data)
     await pool.query('DELETE FROM recipe_categories WHERE recipe_id = $1', [recipeId]);
     await pool.query('DELETE FROM recipe_ingredients WHERE recipe_id = $1', [recipeId]);

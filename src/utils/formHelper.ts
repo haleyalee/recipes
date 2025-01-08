@@ -17,11 +17,12 @@ export interface ValidationErrors {
  *  Notes - 
  */
 export const validateForm = (formData: {
-  name: string;
-  categories: string[];
-  ingredients: string[];
-  instructions: string[];
-  notes?: string;
+  name: string,
+  categories: string[],
+  ingredients: string[],
+  instructions: string[],
+  image?: string,
+  notes?: string
 }): { isValid: boolean; errors: ValidationErrors } => {
   const errors: ValidationErrors = {};
 

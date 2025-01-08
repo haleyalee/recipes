@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/storage/supabaseClient";
 
 export const uploadImage = async (file: File): Promise<{ publicURL: string | null; error: string | null }> => {
   const fileName = `${Date.now()}-${file.name}`; // Generate a unique filename

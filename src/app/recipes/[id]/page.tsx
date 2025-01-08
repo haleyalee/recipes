@@ -39,7 +39,7 @@ export default function RecipeDetailPage({ params }: RecipeDetailPageProps ) {
 
   return (
     <div className="flex flex-col w-screen md:flex-row gap-0 md:gap-8">
-      <RecipeImage />
+      <RecipeImage src={recipe.image} alt={recipe.name} />
       <div className="w-full md:w-8/12 lg:w-9/12 h-auto overflow-y-auto p-4 pb-12">
         <div className="flex flex-row justify-between mb-8">
           <BackButton>Back to All Recipes</BackButton>

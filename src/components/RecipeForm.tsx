@@ -62,6 +62,7 @@ export default function RecipeForm({
     backBtn: "Back"
   };
 
+  // Populate already existing data
   useEffect(() => {
     if (type === "edit") {
       setFormData({
@@ -74,6 +75,7 @@ export default function RecipeForm({
     }
   }, [data]);
 
+  // Determine if data has changed
   useEffect(() => {
     const originalData = JSON.stringify(data);
     const newData = JSON.stringify({
@@ -87,6 +89,7 @@ export default function RecipeForm({
     }
   }, [formData]);
 
+  // Set form text depending on action
   if (type === "edit") {
     const { editRecipe, error: editError } = useEditRecipe();
     formAction = editRecipe;
@@ -112,7 +115,7 @@ export default function RecipeForm({
   
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value, // Store the raw input value as a string
+      [name]: value
     }));
   };
 
@@ -125,7 +128,7 @@ export default function RecipeForm({
       if (error) {
         setValidationErrors((prevErr) => ({
           ...prevErr,
-          image: error,
+          image: `❗️ ${error}`,
         }));
         console.error("Image upload failed:", error);
         return;
@@ -140,7 +143,8 @@ export default function RecipeForm({
       }
     }
   }
-
+  
+  // TODO: refactor category form input
   const handleCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     setCategoryInput(value);
@@ -196,6 +200,7 @@ export default function RecipeForm({
       .split("\n")
       .map((item) => item.trim()) 
       .filter((item) => item !== "");
+    const image = formData.image;
     const notes = formData.notes;
 
     const processedData = {
@@ -203,6 +208,7 @@ export default function RecipeForm({
       categories: categories,
       ingredients: ingredients,
       instructions: instructions,
+      image: image,
       notes: notes
     };
 
@@ -338,6 +344,7 @@ export default function RecipeForm({
           </div>
 
           {/* Submit button */}
+          {/* TODO: submit should be disabled until image stops loading */}
           <div>
             <button
               type="submit"

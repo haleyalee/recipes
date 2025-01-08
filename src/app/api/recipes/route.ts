@@ -23,12 +23,13 @@ export async function GET() {
  *    categories: ["category"],
  *    ingredients: ["new ingredient"],
  *    instructions: ["instruction"],
+ *    image: "supabase-image-url"
  *    notes: "New note"
  *  }
  */
 // TODO: something about the IDs is weird
 export async function POST(request: Request) {
-  const { name, categories, ingredients, instructions, notes }: RecipeDetails = await request.json();
+  const { name, categories, ingredients, instructions, image, notes }: RecipeDetails = await request.json();
   const client = await pool.connect();
   
   if (!name || !categories || !ingredients || !instructions) {
@@ -38,10 +39,10 @@ export async function POST(request: Request) {
   try {
     await client.query("BEGIN");
 
-    // Insert into recipes
+    // Insert into recipes name and image
     const recipeResult = await client.query(
-      "INSERT INTO recipes (name) VALUES ($1) RETURNING id",
-      [name]
+      "INSERT INTO recipes (name, image) VALUES ($1, $2) RETURNING id",
+      [name, image || null]
     );
     const recipeId = recipeResult.rows[0].id;
 

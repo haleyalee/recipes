@@ -17,4 +17,4 @@ export default pool;
 // public | recipe_categories  | table | haley        links recipes to categories since a recipe can belong to multiple categories
 // public | recipe_data        | table | haley        stores instructions and optional notes for each recipe
 // public | recipe_ingredients | table | haley        links recipes to ingredients since recipes have multiple ingredients
-// public | recipes            | table | haley        stores basic recipe details like id and name
+// public | recipes            | table | haley        stores basic recipe details like id and name and image url

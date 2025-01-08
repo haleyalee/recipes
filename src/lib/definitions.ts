@@ -13,6 +13,7 @@ type RecipeDetails = {
   categories: string[];
   ingredients: string[];
   instructions: string[];
+  image?: string;
   notes?: string;
 }
 
