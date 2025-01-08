@@ -15,7 +15,8 @@ import { getNameFromSlug } from '@/utils/helper';
  */
 
 export async function GET(request: Request, context: { params: { id: string } } ) {
-  const { id: slug } = context.params;
+  const params = await context.params;
+  const { id: slug } = params;
   const name = getNameFromSlug(slug);
 
   try {

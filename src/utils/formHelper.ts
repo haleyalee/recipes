@@ -3,6 +3,7 @@ export interface ValidationErrors {
   categories?: string;
   ingredients?: string;
   instructions?: string;
+  image?: string;
 }
 
 /*
@@ -12,6 +13,7 @@ export interface ValidationErrors {
  *  Categories - force lowercase every category, no special characters
  *  Ingredients - trim whitespace, remove empty lines
  *  Instructions - trim whitespace, remove empty lines
+ *  Image - 
  *  Notes - 
  */
 export const validateForm = (formData: {
@@ -51,6 +53,7 @@ export const validateForm = (formData: {
     errors.instructions = "❗️ At least one instruction is required.";
   }
 
+  // Image (handled by Supabase upload)
   // Notes (optional): No strict validation, leave as is.
 
   return {

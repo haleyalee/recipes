@@ -10,6 +10,7 @@ import PageHeader from "./PageHeader";
 import { useCategories } from "@/hooks/useCategories";
 import { validateForm, ValidationErrors } from "@/utils/formHelper";
 import FormSubheader from "./FormSubheader";
+import { uploadImage } from "@/utils/uploadImage";
 
 const delimiter = "\n";
 
@@ -23,7 +24,8 @@ interface ProcessedRecipeProps {
   categories: string[],
   ingredients: string,
   instructions: string,
-  notes?: string
+  notes?: string,
+  image?: string
 };
 
 interface FormTypeProps {
@@ -114,6 +116,31 @@ export default function RecipeForm({
     }));
   };
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+
+    if (file) {
+      const { publicURL, error } = await uploadImage(file);
+
+      if (error) {
+        setValidationErrors((prevErr) => ({
+          ...prevErr,
+          image: error,
+        }));
+        console.error("Image upload failed:", error);
+        return;
+      }
+
+      if (publicURL) {
+        console.log("Image uploaded successfully:", publicURL);
+        setFormData((prevData) => ({
+          ...prevData,
+          image: publicURL,
+        }));
+      }
+    }
+  }
+
   const handleCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     setCategoryInput(value);
@@ -187,6 +214,7 @@ export default function RecipeForm({
   
   return (
     <div className="p-4">
+      {/* Need to redirect to specific recipe for  */}
       <BackButton confirm={hasChanged}>{ formText.backBtn }</BackButton>
       <div className="w-8/12 mx-auto pb-8 mt-8">
         <PageHeader>{formText.title}</PageHeader>
@@ -280,6 +308,20 @@ export default function RecipeForm({
               className="mt-4 p-2 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm"
             />
             <div className="mt-1 text-sm text-red-500">{validationErrors.instructions}</div>
+          </div>
+
+          {/* Image */}
+          {/* TODO: remove image */}
+          <div className="mb-4">
+            <FormSubheader htmlFor="image-file">Image</FormSubheader>
+            <input
+              type="file"
+              id="image-file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="mt-4 block rounded-md border-none shadow-sm sm:text-sm"
+            />
+            <div className="mt-1 text-sm text-red-500">{validationErrors.image}</div>
           </div>
 
           {/* Notes */}
