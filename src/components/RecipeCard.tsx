@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Recipe } from "@/lib/definitions";
 import { getSlugFromName } from "@/utils/helper";
 import CategoryPill from "./CategoryPill";
@@ -17,12 +18,19 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
     <div 
       className="border rounded-lg shadow hover:shadow-lg flex flex-col place-content-between transition-transform duration-200 hover:-translate-y-1"
     >
-      <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
-        <img
+      <div className="relative h-48 w-full overflow-hidden rounded-t-lg min-h-[250px] xl:min-h-[350px]">
+        { recipeData.image ? (
+         <Image
           src={recipeData.image}
           alt={recipe.name}
-          className="absolute top-1/2 left-1/2 h-auto min-h-full w-auto min-w-full -translate-x-1/2 -translate-y-1/2"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover"
+          priority
         />
+        ) : (
+          <div className="bg-stone-300 w-full h-full"></div>
+        )}
       </div>
       <div className="p-4">
         <h2 className="text-md font-bold mb-1">{recipe.name}</h2>

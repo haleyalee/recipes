@@ -219,7 +219,7 @@ export default function RecipeForm({
   };
   
   return (
-    <div className="p-4">
+    <div className="p-8">
       {/* Need to redirect to specific recipe for  */}
       <BackButton confirm={hasChanged}>{ formText.backBtn }</BackButton>
       <div className="w-8/12 mx-auto pb-8 mt-8">
