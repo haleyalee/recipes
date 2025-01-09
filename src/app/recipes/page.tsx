@@ -27,8 +27,8 @@ export default function RecipeListPage() {
 
   return (
     <div className="flex flex-col w-screen md:flex-row gap-0 md:gap-8">
-      <RecipeImage/>
-      <div className="w-full md:w-8/12 lg:w-9/12 h-auto overflow-y-auto p-4 pb-12">
+      {/* <RecipeImage/> */}
+      <div className="w-full h-auto overflow-y-auto pt-4 px-8 pb-12">
         <div className="flex flex-row items-center justify-end gap-2 h-10 mb-2 md:mb-0">
           <SearchBar />
           <RedirectButton path="add-recipe">
